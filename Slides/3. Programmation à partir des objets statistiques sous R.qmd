@@ -1,0 +1,7 @@
+---
+title: "4. Programmation à partir des objets statistiques sous R"
+format: revealjs
+editor: visual
+---
+
+

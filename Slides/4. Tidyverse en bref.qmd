@@ -1,0 +1,967 @@
+---
+title: "Tidyverse en bref"
+author: "Vestin hategekimana"
+format:
+  revealjs:
+    theme: [default, custom.scss]
+    df-print: paged
+editor: visual
+execute: 
+  echo: true
+---
+
+## But
+
+1)  **Savoir ce qu'est le tidyverse**
+    1.  *Introduire le tidyverse*
+
+    2.  *Présenter les packages principaux*
+
+    3.  *Présenter les fonctions les plus utilisées*
+
+    4.  *Présenter des cas pratiques*
+2)  **Reconnaître et interpréter**
+3)  **Trouver les ressources**
+4)  **Suivre nos démonstration dans R**
+
+------------------------------------------------------------------------
+
+## Introduction
+
+**Qu'est-ce que tidyverse?**
+
+Lien: <https://www.tidyverse.org/>
+
+**En bref:**
+
+-   Groupe de packages
+
+-   8 principaux
+
+-   16 autres
+
+------------------------------------------------------------------------
+
+## Pourquoi?
+
+1.  Cohérence
+2.  Lisibilité
+3.  Vitesse
+4.  Consistance
+5.  Utilité
+
+## Pourquoi pas?
+
+1.  Division
+2.  Rien de neuf
+
+------------------------------------------------------------------------
+
+## Ressources
+
+-   [R for Data Science (R4DS)](https://r4ds.hadley.nz/)
+
+-   [Cheat sheets](https://posit.co/resources/cheatsheets/)
+
+-   [Playlist](https://youtube.com/playlist?list=PLSYhtt87oGAJWd2_gjZBXIuq7FA2OYp_f&si=076aGUnK94vzqxgl)
+
+-   Sinon internet: "{package} reference"
+
+------------------------------------------------------------------------
+
+## Popularité
+
+Package principaux:
+
+1.  dplyr
+
+2.  ggplot2
+
+3.  tidyr
+
+4.  *readr*
+
+5.  purrr
+
+6.  stringr
+
+7.  forcats
+
+8.  *tibbles*
+
+------------------------------------------------------------------------
+
+## Installation
+
+Installer tout le tidyverse (packages principaux et les suppléments)
+
+```{r}
+#| eval: false 
+install.packages("tidyverse")
+```
+
+Possible de faire un package à la fois (long et laborieux)
+
+```{r}
+#| eval: false 
+install.packages("dplyr")
+install.packages("ggplot2")
+install.packages("tidyr")
+# etc...
+```
+
+------------------------------------------------------------------------
+
+Charger les 8 packages principaux
+
+```{r}
+library(tidyverse)
+```
+
+Possible de faire un package à la fois (avantages):
+
+1.  On sait ce qui se passe
+2.  On ne charge pas de packages inutiles
+
+```{r}
+library(dplyr)
+library(ggplot2)
+library(tidyr)
+# etc.
+```
+
+NOTE: Chargez tous vos packages au début du script (ici ce n'est qu'un exemple)
+
+------------------------------------------------------------------------
+
+## Données
+
+-   Données starwars du package `dplyr`: données variées et directement accessible
+
+```{r}
+starwars
+```
+
+------------------------------------------------------------------------
+
+## dplyr
+
+**En bref:**
+
+-   Manipulation des données
+
+-   **Utile: tout le temps**
+
+-   Colonne vertébrale du Tidyverse
+
+-   Volumineux: 292 fonctions et données
+
+**Aujourd'hui: 8 fonctions**
+
+*La fonction `group_by()` utilisée avec le reste*
+
+```{r}
+library(dplyr)
+```
+
+------------------------------------------------------------------------
+
+### 1) %\>% (pipe)
+
+En bref:
+
+-   Enchaîner plusieurs actions
+
+-   {magrittr}
+
+-   simplement: gauche `->` droite
+
+-   autocomplétion
+
+-   ordre
+
+-   *raccourcis:*
+
+    -   win: ctrl + Maj + M
+
+    -   mac: cmd + Maj + M
+
+------------------------------------------------------------------------
+
+```{r}
+dim(starwars)
+
+starwars %>% 
+  dim()
+
+starwars %>% # Autocomplétion
+  select(height, mass, skin_color)
+```
+
+------------------------------------------------------------------------
+
+### 2) select()
+
+En bref:
+
+-   Sélectionner les colonnes
+
+-   [`tidyselect`](https://tidyselect.r-lib.org/reference/index.html)
+
+-   renommer (plus pratique de `rename()`)
+
+------------------------------------------------------------------------
+
+Basique
+
+```{r}
+# Exemple 1
+starwars %>% 
+  select(nom = name, height, mass) # Chiffre
+
+# Exemple 2
+starwars %>% 
+  select(var = name:mass)
+```
+
+*Nous pouvons aussi renommer les colonnes qu'on sélectionne*
+
+------------------------------------------------------------------------
+
+Tidyselect
+
+```{r}
+# Exemple 1
+starwars %>% 
+  select(ends_with("color"), name) # favoris matches
+
+# Exemple 2
+starwars %>% 
+  select(last_col(), name, everything()) # autre colonne
+
+# Exemple 3
+starwars %>% 
+  select(where(is.numeric))
+
+# Exemple 4
+starwars %>% 
+  select(where(~ is.numeric(.x) && mean(.x, na.rm = TRUE) > 90))
+```
+
+------------------------------------------------------------------------
+
+### 3) filter()
+
+En bref:
+
+-   Sélectionner les lignes
+
+-   Marche bien avec `group_by()`
+
+------------------------------------------------------------------------
+
+Exemples
+
+```{r}
+# Exemple 1
+starwars %>% 
+  filter(height > 150 & eye_color == "black")
+```
+
+------------------------------------------------------------------------
+
+Exemple
+
+```{r}
+# Exemple 2
+starwars %>% 
+  filter(hair_color %in% c("grey", "blond"))
+```
+
+------------------------------------------------------------------------
+
+Exemple
+
+```{r}
+# Exemple 3
+starwars %>% 
+  filter(between(mass, 80,100))
+```
+
+------------------------------------------------------------------------
+
+Exemple
+
+```{r}
+# Exemple 4 (exemple avec count)
+starwars %>%
+  select(species, gender, mass) %>% 
+  group_by(species) %>% 
+  filter(n()>1) %>% 
+  count()
+```
+
+------------------------------------------------------------------------
+
+### 4) arrange
+
+En bref:
+
+-   Met les lignes dans un ordre
+
+-   De base: ignore les groupes
+
+------------------------------------------------------------------------
+
+```{r}
+# Exemple 1
+starwars %>% 
+  arrange(desc(name))# desc | -
+
+# Exemple 2
+starwars %>% 
+  select(gender, name, mass) %>% 
+  # group_by(gender) %>%
+  arrange(gender, name) # Activer .by_group
+```
+
+------------------------------------------------------------------------
+
+### 5) mutate
+
+En bref:
+
+-   Crée/modifie des colonnes
+
+-   Marche avec plusieurs fonctions existantes
+
+-   Conserve les autres lignes et colonnes
+
+-   Marche aussi avec `group_by()`
+
+-   *Transmute pour retirer les colonnes*
+
+-   *Autres variantes ex. `mutate_all()`*
+
+-   Redoutable avec `accros()`\*
+
+------------------------------------------------------------------------
+
+```{r}
+# Exemple 1
+starwars %>% 
+  mutate(un = 1, .after = name) # Donner un nom, remplacer
+  # select(last_col())
+```
+
+------------------------------------------------------------------------
+
+```{r}
+# Exemple 2
+starwars %>% 
+  mutate(imc = mass/(height/100)^2,
+         un = 1,
+         .before = name) # plusieurs
+```
+
+------------------------------------------------------------------------
+
+```{r}
+# Exemple 3
+starwars %>% 
+  transmute(taille = ifelse(height > 180, "Grand", "Petit"),
+            name) # transmute / .before / .after
+```
+
+------------------------------------------------------------------------
+
+```{r}
+# Exemple 4
+starwars %>% 
+  group_by(species) %>% 
+  mutate(taille = mean(height, na.rm = TRUE)) %>% 
+  select(species, taille)
+```
+
+------------------------------------------------------------------------
+
+### 6) summarize / summarise
+
+En bref:
+
+-   Permet de résumer les données
+
+-   Marche avec plusieurs fonctions existantes
+
+-   Ne conserve pas les lignes et colonnes
+
+-   Marche bien avec `group_by()`
+
+------------------------------------------------------------------------
+
+```{r}
+# Exemple 1
+starwars %>% 
+  group_by(gender) %>% 
+  transmute(taille = mean(height, na.rm = TRUE)) # Ajouter group_by | plusieures variables
+```
+
+------------------------------------------------------------------------
+
+### 7) count
+
+En bref:
+
+-   Compte les occurences
+
+-   Ne conserve pas les lignes et colonnes
+
+-   Possède des fonctions similaires
+
+-   Rapide
+
+------------------------------------------------------------------------
+
+```{r}
+# Exemple 1
+starwars %>% 
+  count(gender, sex, sort = TRUE, name = "comptage") # sort | plusieurs variables | name
+
+```
+
+------------------------------------------------------------------------
+
+```{r}
+# Exemple 2
+starwars %>% 
+  count(round(birth_year, -1)) # exemple sans arrondi
+```
+
+------------------------------------------------------------------------
+
+## ggplot2
+
+En bref:
+
+-   Incroyable package de visualisation
+
+-   **Utile: quand il faut des jolis graphiques**
+
+-   Mastodon dans R
+
+-   Énormément de possibilités
+
+-   Excellente documentation
+
+-   Énormément de package basé dessus
+
+-   Très utilisé par les non-tidyverse
+
+-   Volumineux: 531 fonctions et données
+
+-   90% du graphique en 3 fonctions
+
+------------------------------------------------------------------------
+
+Basique
+
+```{r}
+library(ggplot2)
+```
+
+Étapes pour un graphique basique:
+
+1.  ggplot
+
+2.  aes
+
+3.  geom
+
+4.  labs
+
+5.  theme
+
+------------------------------------------------------------------------
+
+::: {.scrollable}
+
+## {auto-animate="true"}
+
+```{r}
+starwars %>% # présenter un autre geom
+  ggplot(aes(sex)) +
+  geom_bar() 
+```
+
+:::
+
+::: {.scrollable}
+
+## {auto-animate="true"}
+
+```{r}
+starwars %>% # présenter un autre geom
+  ggplot(aes(sex)) +
+  geom_bar() +
+  labs(title = "titre",
+       subtitle = "sous-titre",
+       caption = "note",
+       tag = "tag",
+       x = "x",
+       y = "y")
+```
+
+:::
+
+::: {.scrollable}
+
+## {auto-animate="true"}
+
+```{r}
+starwars %>% # présenter un autre geom
+  ggplot(aes(sex)) +
+  geom_bar() +
+  labs(title = "titre",
+       subtitle = "sous-titre",
+       caption = "note",
+       tag = "tag",
+       x = "x",
+       y = "y") +
+  theme_bw()
+```
+
+:::
+
+------------------------------------------------------------------------
+
+## tidyr
+
+En bref:
+
+-   Permet de manipuler les données tabulaires
+
+-   **Utile: Dans des cas de figures spécifiques**
+
+-   Plus sur la structure et la forme
+
+-   Bon package: 80 fonctions et données
+
+**On va voir 6 fonctions**
+
+------------------------------------------------------------------------
+
+```{r}
+library(tidyr)
+```
+
+![](images/wideLong1-1.png)
+
+### 1) pivot_longer / gather
+
+En bref:
+
+-   Assemble des variables
+
+-   Très complexe
+
+-   Cas de figures spécifiques
+
+**On va voir un exemple basique**
+
+------------------------------------------------------------------------
+
+```{r}
+# Anciennement
+starwars %>% 
+  gather("type", "valeur", height, mass) %>% 
+  select(name, type, valeur) %>% 
+  arrange(name)
+
+# Maintenant
+starwars %>% 
+  pivot_longer(cols = c(height,mass),
+               names_to = "type",
+               values_to = "valeur") %>% 
+  select(name, type, valeur) %>% 
+  arrange(name)
+```
+
+------------------------------------------------------------------------
+
+### 2) pivot_wider / spread
+
+En bref:
+
+-   Réparti les valeurs
+
+-   Très complexe
+
+-   Cas de figures spécifiques
+
+Nous utilisons les données `txhousing`
+
+------------------------------------------------------------------------
+
+```{r}
+# Ancien
+txhousing %>% 
+  filter(month == 1) %>% 
+  select(city, year, sales) %>% 
+  spread(year, sales)
+
+# Maintenant
+txhousing %>% 
+  filter(month == 1) %>% 
+  select(city, year, sales) %>% 
+  pivot_wider(names_from = year,
+              values_from = sales)
+```
+
+------------------------------------------------------------------------
+
+### 3) separate
+
+En bref:
+
+-   Permet de séparer une colonne en plusieurs
+
+-   Utilise le regex
+
+-   Très souple
+
+-   Version en ligne
+
+-   Cas spécifique
+
+------------------------------------------------------------------------
+
+```{r}
+# Exemple 1
+starwars %>% 
+  separate(col = name,
+           into = c("name", "surname"),
+           sep = "\\s") # sep | regex
+```
+
+------------------------------------------------------------------------
+
+### 4) unite
+
+En bref:
+
+-   Inverse de `separate()`
+
+-   Cas de figure spécifique
+
+```{r}
+starwars %>% 
+  unite("test", sex, gender, sep = " ") # sep
+```
+
+------------------------------------------------------------------------
+
+## purrr
+
+En bref:
+
+-   Programmation fonctionnelle
+
+-   **Utile: pour les tâches répétitives**
+
+-   **Utile: pour les listes**
+
+-   **Utile: pour le développement**
+
+-   **Utile: multifonction**
+
+-   Plus performant que les boucles
+
+-   Utilisation simple et avancée
+
+-   Redoutable avec des fonctions personnelles
+
+-   Complexe
+
+-   Bon pacakge: 178 fonctions
+
+    On ne va voir que la fonction map
+
+------------------------------------------------------------------------
+
+```{r}
+library(purrr)
+```
+
+### 1) map
+
+En bref:
+
+-   Permet d'appliquer une fonction sur une liste d'éléments
+
+-   Plusieurs variantes ex. `map_dfr()` ou `map2()`
+
+-   Cousin de l'`apply()`'s family en plus consistent
+
+-   Puissant avec `nest()`
+
+**Il y a tellement de cas pratique, mais nous allons voir 2 cas avec map**
+
+------------------------------------------------------------------------
+
+```{r}
+# Exemple 1
+liste_tableaux <- list.files(path = "exemple_ purrr/",
+           pattern = ".csv", full.names = TRUE)
+
+data <- map_dfr(liste_tableaux, read.csv2) # map_dfr
+
+data
+
+# Exemple 2
+starwars %>% 
+  group_by(sex) %>% 
+  nest() %>% 
+  mutate(regression = map(data, ~ lm(mass ~ height, .)),
+         bic = map(regression, BIC)) %>% 
+  unnest(bic)
+```
+
+------------------------------------------------------------------------
+
+## stringr
+
+En bref:
+
+-   Manipulation de texte
+
+-   **Utile: pour les textes**
+
+-   **Utile: pour le text mining**
+
+-   Utilise le regex
+
+-   Bon package: 52 fonctions et données
+
+------------------------------------------------------------------------
+
+```{r}
+library(stringr)
+```
+
+------------------------------------------------------------------------
+
+### 1) str_detect
+
+En bref:
+
+-   Détecter un motif textuel
+
+-   Pratique avec `filter()`
+
+------------------------------------------------------------------------
+
+```{r}
+# Exemple 1
+starwars %>% 
+  mutate(skywalker = str_detect(name, "Skywalker"), # R2-D2
+         .after = name)
+
+# Exemple 2
+starwars %>% 
+  filter(str_detect(hair_color, "grey"))
+```
+
+------------------------------------------------------------------------
+
+### 2) str_extract
+
+En bref:
+
+-   Récupérer un motif textuel
+
+-   Fonctionne bien avec `mutate()` et `summarize()`
+
+------------------------------------------------------------------------
+
+```{r}
+# Exemple 1
+starwars %>% 
+  mutate(hair = str_extract(hair_color, "[a-z]+"),
+         .after = hair_color) %>% 
+  select(-mass)
+```
+
+------------------------------------------------------------------------
+
+### 3) str_remove
+
+En bref:
+
+-   Suprimer un motif textuel
+
+-   Fonctionne bien avec `mutate()` et `summarize()`
+
+------------------------------------------------------------------------
+
+```{r}
+# Exemple 1
+starwars %>% 
+  mutate(prenom = str_remove_all(name, "\\s\\w+"),
+         .after = name)
+
+# Exemple 2
+starwars %>% 
+  mutate(hair = str_remove_all(hair_color, "(brown|grey)(\\s|\\,)?"), # remove_all
+         .after = hair_color) %>% 
+  select(-mass)
+```
+
+------------------------------------------------------------------------
+
+### 4) str_replace
+
+En bref:
+
+-   Remplacer un motif textuel
+
+-   Fonctionne bien avec `mutate()` et `summarize()`
+
+------------------------------------------------------------------------
+
+```{r}
+# Exemple 1
+starwars %>% 
+  mutate(hair = str_replace(hair_color, "brown", "black"), # replace_all
+         .after = hair_color) %>% 
+  select(-mass)
+
+# Exemple 2
+starwars %>% 
+  mutate(prenom = str_replace(name, "(\\w+)\\s?\\w+", "\\1 Stars"),
+         .after = name)
+```
+
+------------------------------------------------------------------------
+
+### 5) str_length
+
+En bref:
+
+-   Mesurer la longueur d'un motif textuel
+
+-   Fonctionne bien avec `mutate()` et `summarize()`
+
+------------------------------------------------------------------------
+
+```{r}
+# Exemple 1
+starwars %>% 
+  mutate(long = str_length(name),
+         .after = name)
+```
+
+------------------------------------------------------------------------
+
+## forcats
+
+En bref:
+
+-   Manipuler les facteurs
+
+-   Subjectif: Pas très utilisé
+
+**Il faut créer une variable de facteur**
+
+------------------------------------------------------------------------
+
+```{r}
+starwars <- 
+  starwars %>% 
+  mutate(sex = factor(sex))
+  
+
+levels(starwars$sex)
+```
+
+**Nous aurons aussi besoin de la librairie ggplot2 pour certains exemples**
+
+------------------------------------------------------------------------
+
+```{r}
+library(ggplot2)
+```
+
+------------------------------------------------------------------------
+
+### 1) fct_infreq
+
+En bref:
+
+-   Réordonne les niveaux
+
+-   En fonction de leur fréquence
+
+------------------------------------------------------------------------
+
+```{r}
+# Exemple 1
+fct_infreq(starwars$sex) %>% 
+  levels()
+
+# Exemple 2
+starwars %>% 
+  drop_na() %>% 
+  mutate(sex = fct_infreq(sex, mass)) %>%
+  ggplot(aes(sex)) + 
+  geom_bar()
+```
+
+------------------------------------------------------------------------
+
+### 3) fct_lump
+
+En bref:
+
+-   Réuni les petits niveaux
+
+------------------------------------------------------------------------
+
+```{r}
+# Exemple 1
+starwars %>% 
+  mutate(skin_color = fct_lump(skin_color, 2, 
+                               other_level = "Autre")) %>%
+  ggplot(aes(skin_color)) +
+  geom_bar()
+
+# Exemple 2
+starwars %>% 
+  mutate(skin_color = fct_lump(skin_color,
+                               prop = 0.15,
+                               other_level = "Autre")) %>%
+  ggplot(aes(skin_color)) +
+  geom_bar()
+```
+
+------------------------------------------------------------------------
+
+### 4) fct_collapse
+
+En bref:
+
+-   Rassemble les niveaux en groupes prédéfinis
+
+------------------------------------------------------------------------
+
+```{r}
+# Exemple 1
+starwars %>% 
+  mutate(skin_color = fct_collapse(hair_color,
+                                   auburn = c("auburn",
+                                         "auburn, grey",
+                                         "auburn, white"),
+                                   brown = c("brown",
+                                         "brown, grey"))) %>%
+  ggplot(aes(skin_color)) + # other_levels
+  geom_bar()
+```

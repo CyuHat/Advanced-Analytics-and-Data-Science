@@ -1,0 +1,7 @@
+"0",""
+"0","# Exemple 4 (exemple avec count)"
+"0","starwars %>%"
+"0","  select(species, gender, mass) %>% "
+"0","  group_by(species) %>% "
+"0","  filter(n()>1) %>% "
+"0","  count()"

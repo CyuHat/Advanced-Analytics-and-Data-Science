@@ -1,0 +1,8 @@
+"0",""
+"0","# Maintenant"
+"0","starwars %>% "
+"0","  pivot_longer(cols = c(height,mass),"
+"0","               names_to = ""type"","
+"0","               values_to = ""valeur"") %>% "
+"0","  select(name, type, valeur) %>% "
+"0","  arrange(name)"

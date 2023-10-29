@@ -1,0 +1,3 @@
+"0","# Exemple 1"
+"0","starwars %>% "
+"0","  mutate(un = 1, .after = name) # Donner un nom, remplacer"

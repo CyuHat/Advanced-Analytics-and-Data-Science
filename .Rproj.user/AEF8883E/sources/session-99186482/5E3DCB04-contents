@@ -1,0 +1,758 @@
+---
+title: "1. Introduction à la programmation R et RStudio"
+author: "Vestin Hategekimana"
+format:
+  revealjs:
+    theme: [default, custom.scss]
+editor: visual
+execute: 
+  echo: true
+---
+
+## Installer R et RStudio
+
+Vous pouvez installer les outils necessaires au cours sur Posit:
+
+[Installer R et RStudio](https://posit.co/download/rstudio-desktop/)
+
+### Prise en main de RStudio
+
+-   Posit a fait un excellent tutoriel pour apprendre à utiliser [RStudio](https://docs.posit.co/ide/user/ide/get-started/)
+
+Nous allons nous concentrer sur [l'interface utilisateur](https://docs.posit.co/ide/user/ide/guide/ui/ui-panes.html) et [les projets](https://docs.posit.co/ide/user/ide/guide/code/projects.html).
+
+------------------------------------------------------------------------
+
+### Reproductibilité, lisibilité et débogage
+
+![](images/clean_code.jpg)
+
+## Type de données et opérations arithmétique
+
+Chiffres
+
+```{r}
+2.3
+10000000000000 
+```
+
+Commentaires
+
+```{r}
+# Ceci est un commentaire
+```
+
+------------------------------------------------------------------------
+
+Texte / chaîne de caractère
+
+```{r}
+"chocolat"
+"Puree de pomme de terre" 
+```
+
+Types
+
+```{r}
+typeof(1L)
+typeof(2.3)
+typeof("text")
+```
+
+------------------------------------------------------------------------
+
+**Les variables**
+
+```{r}
+a <- 12 
+b = "magicien"
+32 + 19 -> c 
+```
+
+Contenu d'une variable (interactivement):
+
+```{r}
+a
+b 
+c 
+```
+
+------------------------------------------------------------------------
+
+Contenu d'une variable (script)
+
+```{r}
+print(a)
+print(b) 
+print(c) 
+```
+
+Oneliner
+
+```{r}
+a; b; c
+```
+
+------------------------------------------------------------------------
+
+On peut également faire des calcules avec les variables ou toute autre sorte de manipulation :
+
+```{r}
+a * 5
+a - c 
+d = c/a 
+d
+e <- d + 3
+e
+```
+
+------------------------------------------------------------------------
+
+Naturellement, il n'est pas possible de faire des calcules avec les chaînes de caractères :
+
+```{r}
+#| eval: false
+b + c # Erreur
+```
+
+Mutabilité des variables:
+
+```{r}
+a
+a = 52344
+a
+```
+
+------------------------------------------------------------------------
+
+Vecteurs
+
+------------------------------------------------------------------------
+
+**Les vecteurs**
+
+Serie de valeurs de même type
+
+```{r}
+v0 <- c(1, 2, 3, 4, 5)
+v1 <- c(3, 54, 1, 8, 10)
+v2 <- c("lait", "manioc", "sesame")
+v3 <- c("ananas", 72, 1, "nairobi", 3)
+v0; v1; v2; v3
+```
+
+------------------------------------------------------------------------
+
+Ainsi, nous avons crée des vecteurs numériques (v1) et à chaîne de caractères (v2 et v3). En effet, l'objet devient automatiquement une chaîne de caractères si au moins l'un de ses éléments est un caractère:
+
+```{r}
+typeof(v0); typeof(v1); typeof(v2); typeof(v3)
+```
+
+------------------------------------------------------------------------
+
+Cette ligne
+
+``` {.r code-line-numbers="4"}
+v0 <- c(1, 2, 3, 4, 5)
+v1 <- c(3, 54, 1, 8, 10)
+v2 <- c("lait", "manioc", "sesame")
+v3 <- c("ananas", 72, 1, "nairobi", 3)
+v0; v1; v2; v3
+```
+
+v3 devient une chaîne de caractères
+
+```{r}
+v3
+```
+
+-   Tous les éléments d'un vecteur ont le même type
+-   R impute automatiquement le type en cas d'ambiguïté
+
+------------------------------------------------------------------------
+
+Autre exemple
+
+```{r}
+c(1, 2, 3)
+c(1, 2.0, 3)
+c(1, 2.5, 3)
+```
+
+------------------------------------------------------------------------
+
+::: callout-warning
+## Attention: tous double!
+:::
+
+```{r}
+typeof(c(1, 2, 3))
+typeof(c(1, 2.0, 3))
+typeof(c(1, 2.5, 3))
+```
+
+------------------------------------------------------------------------
+
+Comme pour les variables classiques, vous pouvez faire diverses manipulations:
+
+```{r}
+v1 * 3
+v0 - 5
+```
+
+Pour les calculs entre vecteurs, il y a une règle supplémentaire: la longueur. Créons un vecteur de longueur 2 et un autre de longueur 4 :
+
+```{r}
+v4 <- c(1, 0)
+v5 <- c(1, 1, 1, 1)
+```
+
+------------------------------------------------------------------------
+
+Lorsque les deux vecteurs ont des diviseurs communs (ici 2 pour v4 avec v0 ou v1), les calcules fonctionnent:
+
+```{r}
+v4 + v0
+v4 * v0
+v4 - v1
+v4/v1
+```
+
+------------------------------------------------------------------------
+
+Mais ça ne fonctionne pas lorsqu'il n'y a pas de diviseur commun:
+
+```{r}
+v0; v5
+v5 + v0
+```
+
+------------------------------------------------------------------------
+
+Longueur d'un vecteur
+
+```{r}
+length(v0)
+length(v1)
+length(v2)
+length(v3)
+length(v4)
+length(v5)
+```
+
+------------------------------------------------------------------------
+
+Opérations classiques (1)
+
+```{r}
+sum(v4) # Somme
+min(v0) # Minimum
+max(v1) # Maximum
+median(v0) # Median
+var(v1) # Variance
+sd(v0) # ecart-type
+```
+
+------------------------------------------------------------------------
+
+Opérations classiques (2)
+
+```{r}
+fivenum(v0) # 5 indicateurs statistiques (minimum, charnière inferieure, mediane, charnière superieure, maximum)
+summary(v1) # Resume statistique
+```
+
+------------------------------------------------------------------------
+
+Liste des objets
+
+```{r}
+#| echo: true
+rm(has_annotations)
+```
+
+```{r}
+ls()
+```
+
+Supprimer (rm ou remove)
+
+```{r}
+rm(v0) # un seul
+rm(v1, v2, v3) # Plusieurs
+rm(list = ls()) # Tout
+```
+
+------------------------------------------------------------------------
+
+Vecteurs avec attributs (en une fois)
+
+```{r}
+v0 <- c(point=1, lunette=6, tableau=19)
+```
+
+Vecteurs avec attributs (en deux fois)
+
+```{r}
+v0 <- c(27,1,9)
+names(v0) <- c("metal", "soleil", "chou")
+```
+
+------------------------------------------------------------------------
+
+Vecteur avec série
+
+```{r}
+v0 <- 1:10
+v1 <- 5:-2
+v2 <- c(4:1, 5, 1, 6)
+v3 <- c(v0, v1)
+v4 <- c(3, v2, -2:5, 0)
+v0; v1; v2; v3; v4
+```
+
+------------------------------------------------------------------------
+
+Série plus complexe
+
+```{r}
+seq(3, 11, by=4)
+seq(23, 9, by=-5)
+v0 <- seq(8, 13, by=0.5)
+v0
+```
+
+------------------------------------------------------------------------
+
+Répétitions
+
+```{r}
+v0 <- 0:1
+rep(5, time = 10)
+rep(c(3, 2, 1), time=3)
+rep(4:1, time=2)
+rep(v0, time=5)
+```
+
+------------------------------------------------------------------------
+
+Mais il est également possible de répéter plusieurs fois chaque élément d'un vecteur pour l'agrandir:
+
+```{r}
+v0 <- 0:1
+rep(c(1, 2, 3), each = 2)
+rep(v0, each = 5)
+```
+
+------------------------------------------------------------------------
+
+**Sélection** Il est possible de manipuler qu'une partie des vecteurs:
+
+```{r}
+v0 <- 1:10
+v1 <- c(1:4, 5, 1, 3, 6, 8, 1)
+v0[1]
+v0[2:5]
+v0[c(1, 3, 8)]
+v0[2] + v1[3]
+v0[3:9] * v1[1:7]
+```
+
+------------------------------------------------------------------------
+
+**Opérateurs**
+
+Avant d'entamer les opérateurs, nous allons commencer par un petit exemple. Nous allons voir ce qu'il se passe lorsque nous utilisons les signes \< et \>:
+
+```{r}
+2 > 3
+1 < 100
+```
+
+------------------------------------------------------------------------
+
+Nombre supérieur à 5
+
+```{r}
+v0 <- 1:10
+v0
+v0 > 5
+```
+
+------------------------------------------------------------------------
+
+**Arithmetique**
+
+| Type                      | Signe |
+|---------------------------|-------|
+| Addition                  | \+    |
+| Soustraction              | --    |
+| Multiplication            | \*    |
+| Division                  | /     |
+| Exposant                  | \^    |
+| Modulo                    | %%    |
+| Division de nombre entier | %/%   |
+
+*Remarque: le modulo est le reste d'une division*
+
+------------------------------------------------------------------------
+
+**Relationnel**
+
+| Type                  | Signe   |
+|-----------------------|---------|
+| Moins/Plus que        | \< \>   |
+| Moins/Plus ou égale à | \<= \>= |
+| égal à                | ==      |
+| Pas égal              | !=      |
+
+------------------------------------------------------------------------
+
+**Logique**
+
+| Type             | Signe |
+|------------------|-------|
+| N'est pas        | !     |
+| Et (par élément) | &     |
+| Et (simple)      | &&    |
+| Ou (par élément) | "     |
+| Ou (simple)      | "     |
+
+*Remarque: Les signes "\|" (ou par élément) et "\|\|" (ou simple) n'apparaissent pas dans le tableau à cause de leur particularité, mais ce sont bien ces signes.*
+
+------------------------------------------------------------------------
+
+Opérateurs: autres exemples
+
+```{r}
+# Division Euclidienne avec resultat et reste:
+10 %/% 6 ; 10 %% 6
+# Est-ce que 10 et 5 sont tous les deux superieurs à 3 ?
+10 & 5 > 3
+# Est-ce que 10 et 1 sont tous les deux superieurs à 3 ?
+10 & 1 > 3
+# Est-ce que 10 ou 1 est superieur à 3 ?
+10 | 1 > 3 
+```
+
+------------------------------------------------------------------------
+
+## Booléens
+
+Les booléens sont un type d'objet qui ne prend que deux types de valeurs vrai "TRUE" ou faux "FALSE". Et le tout s'écrit en majuscule:
+
+```{r}
+TRUE
+FALSE
+```
+
+------------------------------------------------------------------------
+
+Les deux valeurs peuvent être considerées comme des chiffres, là où TRUE vaut 1 et FALSE vaut 0.
+
+```{r}
+as.numeric(TRUE); as.numeric(FALSE)
+TRUE + TRUE
+FALSE - 10
+```
+
+------------------------------------------------------------------------
+
+Booléen et sélection
+
+```{r}
+v2 <- c(1, 2)
+v2
+v2[c(TRUE, FALSE)]
+v2[c(FALSE, TRUE)]
+v2[c(FALSE, FALSE)]
+v2[c(TRUE, TRUE)]
+```
+
+------------------------------------------------------------------------
+
+Sélection logique
+
+```{r}
+v3 <- 1:10
+v3
+v4 <- c("a", "b", "c", "d", "e", "f", "g", "h", "i", "j")
+v4
+v3 >= 5
+v3[v3 >= 5]
+v4[v3 >= 5 | v4 == "b"]
+```
+
+------------------------------------------------------------------------
+
+Sélection dans un ensemble
+
+```{r}
+v4 <- 1:4
+v3
+v4
+5 %in% v3
+5 %in% v4
+v3 %in% v4
+```
+
+------------------------------------------------------------------------
+
+Sélection conditionnelle
+
+```{r}
+v3
+v3 == 10
+ifelse(v3 == 10, "vrai", "faux")
+ifelse(v3 == 10, v3 * 10, v3)
+ifelse(v3 < 10, v3 * 10, v3/2)
+```
+
+------------------------------------------------------------------------
+
+## Listes (1)
+
+-   Une liste peut contenir n'importe quels types d'objets (chaîne de caractères, nombre, booléen, vecteurs, data frame, etc.) et peut en avoir différents types sans que ça pose un problème.
+
+-   Une liste peut contenir d'autres listes et il est possible d'avoir un contenu en tiroirs.
+
+-   Il est possible d'appeler un élément d'une liste par un nom qu'on lui a donne au préalable.
+
+-   Les éléments d'une liste ne sont pas directement manipulables, ni directement accessibles contrairement aux vecteurs. Il faut les extraire d'une manière spéciale.
+
+    ------------------------------------------------------------------------
+
+## Listes (2)
+
+-   Il n'est pas possible de faire directement des opérations sur une liste sans passer par une itération (boucle) ou du mapping (apply, map).
+
+------------------------------------------------------------------------
+
+Voyons tout cela de plus près. Premièrement, nous pouvons créer une liste en utilisant la fonction liste:
+
+```{r}
+l1 <- list(1, 4, "carotte", TRUE)
+l2 <- list(v1, v0, "Ceci est une phrase", l1)
+
+```
+
+------------------------------------------------------------------------
+
+```{r}
+l1
+```
+
+------------------------------------------------------------------------
+
+```{r}
+l2
+```
+
+------------------------------------------------------------------------
+
+Nous pouvons sélectionner les éléments d'une liste, mais il faut une sélection particulière avec "\[" et "\]", sinon nous n'arrivons pas réellement à l'objet.
+
+```{r}
+# ça ne suffit pas pour manipuler l'element selectionne
+l1[1]
+l1[[1]]
+
+class(l1)
+class(l1[1])
+class(l1[[1]])
+```
+
+------------------------------------------------------------------------
+
+Si nous nommons les éléments d'une liste, il est possible de les récupérer avec leurs noms:
+
+```{r}
+l3 <- list(vecteur0 = v0, vecteur1 = v1)
+l3$vecteur0
+l3$vecteur1
+```
+
+------------------------------------------------------------------------
+
+Finalement, il est possible de récupérer des éléments imbriqués d'une liste dans une liste:
+
+```{r}
+l0 <- list(vecteur1 = v1, animal = "oiseau")
+l4 <- list(liste0 = l0, vecteur = v0)
+l4
+```
+
+------------------------------------------------------------------------
+
+```{r}
+l4[[1]]
+l4[[1]][[2]]
+```
+
+------------------------------------------------------------------------
+
+```{r}
+l4$liste0
+l4$liste0$animal
+```
+
+------------------------------------------------------------------------
+
+```{r}
+l4$liste0[[2]]
+l4[[1]]$animal
+```
+
+------------------------------------------------------------------------
+
+## Structure algorithmique
+
+-   If, esle, else if
+
+-   For loop
+
+-   While loop
+
+-   Fonction
+
+------------------------------------------------------------------------
+
+## Conditions
+
+```{r}
+#| eval: false
+fruits <- 5
+
+if (fruits == 7) {
+  print("C'est 7")
+} else if (fruits > 7) {
+  print("C'est plus grand que 7")
+  } else {
+  print("C'est plus petit que 7")
+}
+```
+
+------------------------------------------------------------------------
+
+## For loop
+
+```{r}
+
+fruits <- list("cerise", "poire", "fraise")
+
+for (x in fruits) {
+  print(x)
+} 
+```
+
+------------------------------------------------------------------------
+
+## While loop
+
+```{r}
+i <- 1
+
+while (i < 10) {
+  print(i)
+  i <- i + 1
+} 
+```
+
+------------------------------------------------------------------------
+
+## Fonction
+
+**Créer une fonction :**
+
+``` r
+nom_de_la_fonction <- function(arg1, arg2, ...) {
+  # Corps de la fonction
+  # Retourne une valeur (ou NULL par défaut)
+}
+```
+
+**Appeler une fonction :**
+
+``` r
+resultat <- nom_de_la_fonction(arg1, arg2, ...)
+```
+
+------------------------------------------------------------------------
+
+**Arguments de fonction :**
+
+-   Les arguments sont passés à la fonction entre les parenthèses.
+-   Vous pouvez avoir des arguments par défaut dans la définition de la fonction.
+
+**Retourner une valeur depuis une fonction :**
+
+-   Utilisez `return(valeur)` pour renvoyer une valeur depuis une fonction.
+-   La valeur renvoyée peut être stockée dans une variable.
+
+------------------------------------------------------------------------
+
+**Fonctions récursives :**
+
+-   Une fonction peut s'appeler elle-même pour résoudre un problème récursivement.
+
+**Documentation des fonctions :**
+
+-   Utilisez `?nom_de_la_fonction` pour accéder à la documentation d'une fonction.
+-   Vous pouvez également utiliser `help(nom_de_la_fonction)`.
+
+**Passage d'arguments multiples :**
+
+-   Utilisez `...` pour permettre à une fonction de recevoir un nombre variable d'arguments.
+
+------------------------------------------------------------------------
+
+## Apply
+
+Dans R, on préféré utiliser les fonctions de l'**apply family** ou **map family** plutôt que des boucles, car elles sont plus efficaces.
+
+-   le package purrr donne plus d'options
+
+------------------------------------------------------------------------
+
+## apply()
+
+```{r}
+matrice <- matrix(1:9, ncol = 3)
+matrice
+apply(matrice, 1, sum)  
+```
+
+------------------------------------------------------------------------
+
+## lapply()
+
+```{r}
+liste <- list(A = matrix(1:9, nrow = 3), B = 1:5, C = 8)
+liste
+lapply(liste, sum)
+```
+
+------------------------------------------------------------------------
+
+## sapply()
+
+```{r}
+sapply(liste, sum)
+```
+
+------------------------------------------------------------------------
+
+## mapply()
+
+```{r}
+mapply(rep, 1:4, 4:1)
+```
+
+------------------------------------------------------------------------
+
+## tapply()
+
+```{r}
+tapply(iris$Sepal.Length, iris$Species, max)
+```

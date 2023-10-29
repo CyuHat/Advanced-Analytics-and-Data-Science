@@ -1,0 +1,8 @@
+"0",""
+"0","# Exemple 2"
+"0","starwars %>% "
+"0","  group_by(sex) %>% "
+"0","  nest() %>% "
+"0","  mutate(regression = map(data, ~ lm(mass ~ height, .)),"
+"0","         bic = map(regression, BIC)) %>% "
+"0","  unnest(bic)"

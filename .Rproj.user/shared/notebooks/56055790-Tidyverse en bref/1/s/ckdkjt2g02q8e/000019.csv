@@ -1,0 +1,6 @@
+"0",""
+"0","# Exemple 2"
+"0","starwars %>% "
+"0","  mutate(hair = str_remove_all(hair_color, ""(brown|grey)(\\s|\\,)?""), # remove_all"
+"0","         .after = hair_color) %>% "
+"0","  select(-mass)"

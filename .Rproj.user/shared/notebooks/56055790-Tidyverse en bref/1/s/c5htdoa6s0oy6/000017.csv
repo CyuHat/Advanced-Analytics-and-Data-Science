@@ -1,0 +1,7 @@
+"0","# Exemple 1"
+"0","liste_tableaux <- list.files(path = ""exemple_ purrr/"","
+"0","           pattern = "".csv"", full.names = TRUE)"
+"0",""
+"0","data <- map_dfr(liste_tableaux, read.csv2) # map_dfr"
+"0",""
+"0","data"

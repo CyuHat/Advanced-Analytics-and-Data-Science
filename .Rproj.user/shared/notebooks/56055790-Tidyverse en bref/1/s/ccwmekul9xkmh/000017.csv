@@ -1,0 +1,5 @@
+"0","# Anciennement"
+"0","starwars %>% "
+"0","  gather(""type"", ""valeur"", height, mass) %>% "
+"0","  select(name, type, valeur) %>% "
+"0","  arrange(name)"

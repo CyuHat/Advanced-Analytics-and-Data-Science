@@ -1,0 +1,903 @@
+---
+title: "Base 4: Statistique descriptive (1)"
+author: Vestin Cyuzuzo Hategekimana
+date: '2021-01-29'
+slug: statistique-descriptive-1
+categories:
+  - R
+tags:
+  - r
+  - statistiques
+subtitle: ''
+summary: 'Ce tutoriel traite de quelques base en analyse déscriptive sur R'
+authors: []
+lastmod: '2022-04-09T00:50:37+02:00'
+featured: no
+image:
+  caption: ''
+  focal_point: ''
+  preview_only: no
+projects: []
+---
+
+
+
+<p>N’oubliez pas de nettoyer votre “Global Environnment” avec la fonction <code>rm(list=ls())</code>, pour éviter d’être encombré de variable. N’hésitez surtout pas à les supprimer si ce sont des exemples donnés dans les tutos, vous pouvez les recréer facilement. R-Studio n’est pas une cave, un peu d’ordre ça aide en statistique.</p>
+<p>Il existe des packages qui font un bien meilleur travail tel que dyplr pour la manipulation de tableaux de données et forcats pour la manipulation de données catégorielles.</p>
+<div id="références" class="section level2">
+<h2>Références</h2>
+<p>À votre niveau, vous êtes capable de pouvoir vous débrouiller tout seul et de vous informer tout seul sur le fonctionnement de R. Nous vous proposons ce site pour des tutos claires en français si vous désirez découvrir le logiciel par vous-même:</p>
+<p><a href="https://statistique-et-logiciel-r.com/" class="uri">https://statistique-et-logiciel-r.com/</a></p>
+<p>Et voici quelques ressources en anglais:
+<a href="https://www.datacamp.com/courses/free-introduction-to-r" class="uri">https://www.datacamp.com/courses/free-introduction-to-r</a> <a href="https://www.statmethods.net/r-tutorial/index.html" class="uri">https://www.statmethods.net/r-tutorial/index.html</a> <a href="https://www.guru99.com/r-tutorial.html" class="uri">https://www.guru99.com/r-tutorial.html</a> <a href="https://www.tutorialspoint.com/r/index.htm" class="uri">https://www.tutorialspoint.com/r/index.htm</a></p>
+<p>Voici quelques chaînes donnant des tutoriels en français sur YouTube: <a href="https://www.youtube.com/channel/UCQW2mMKOwmgfM5XOzPiLnGg" class="uri">https://www.youtube.com/channel/UCQW2mMKOwmgfM5XOzPiLnGg</a> <a href="https://www.youtube.com/channel/UCww8jYELz4JmlkxT8FvNRAg" class="uri">https://www.youtube.com/channel/UCww8jYELz4JmlkxT8FvNRAg</a></p>
+<p>Et en anglais:
+<a href="https://www.youtube.com/channel/UC79Gv3mYp6zKiSwYemEik9A" class="uri">https://www.youtube.com/channel/UC79Gv3mYp6zKiSwYemEik9A</a> <a href="https://www.youtube.com/channel/UC5ktyacv_aPSBmKB7uX5Piw" class="uri">https://www.youtube.com/channel/UC5ktyacv_aPSBmKB7uX5Piw</a> <a href="https://www.youtube.com/channel/UCwuvoN0QKjrXUi48G_Hv7kQ" class="uri">https://www.youtube.com/channel/UCwuvoN0QKjrXUi48G_Hv7kQ</a> <a href="https://www.youtube.com/channel/UCig0KhrB5NClMvX9QrbXcrw" class="uri">https://www.youtube.com/channel/UCig0KhrB5NClMvX9QrbXcrw</a> <a href="https://www.youtube.com/channel/UC8butISFwT-Wl7EV0hUK0BQ" class="uri">https://www.youtube.com/channel/UC8butISFwT-Wl7EV0hUK0BQ</a></p>
+</div>
+<div id="création-dun-tableau-de-données" class="section level2">
+<h2>Création d’un tableau de données</h2>
+<p>Pour pouvoir faire des statistiques, il nous faut d’abord un tableau de données. Les lignes du code qui suivent vont nous permettent de créer un tableau de concernant les étudiants d’une école fictive contenant 423 étudiants. Les variables qui seront pris en compte seront le sexe, l’âge, le né de classe, les notes en anglais, en art, en info (informatique) et histoire. Chacune des matières sera influencé par un ou plusieurs paramètre personnels (sexe, âge et le né de classe). Pour simplifier les tableaux que nous ferons plus tard les notes seront sur 10. Pour l’instant, vous n’avez pas besoin de comprendre la suite de code, nous nous intéressons ici qu’au résultat du tableau, lancez simplement ce code en entier:</p>
+<pre class="r"><code>s&lt;-c(&quot;Femme&quot;,&quot;Homme&quot;)
+sexe&lt;-sample(s,423,replace=TRUE)
+a&lt;-c(15,15,16,16,16,17,17,17,17,18,18,19,20)
+age&lt;-sample(a,423,replace=TRUE)
+c&lt;-c(&quot;A&quot;,&quot;B&quot;,&quot;C&quot;)
+classe&lt;-sample(c,423,replace=TRUE)
+rm(s,a,c)
+anglais&lt;-round(rnorm(423,7,0.5)+ifelse(sexe==&quot;Femme&quot;,2,0),0) 
+info&lt;-round(rnorm(423,5,3)+ifelse(age&gt;=19,2,0),0)
+art&lt;-round(rnorm(423,4,3)+ifelse(classe==&quot;C&quot;,2,-1),0)
+histoire&lt;-round(rnorm(423,6,2)+ifelse(classe==&quot;B&quot; &amp;&amp; sexe==&quot;Homme&quot;,2,0),0)
+ecole&lt;-data.frame(age,sexe,classe,anglais,info,art,histoire) 
+rm(age,classe,sexe,anglais,info,art,histoire)
+ecole[ecole$anglais&gt;10,&quot;anglais&quot;]&lt;-10 
+ecole[ecole$info&gt;10,&quot;info&quot;]&lt;-10
+ecole[ecole$art&gt;10,&quot;art&quot;]&lt;-10 
+ecole[ecole$histoire&gt;10,&quot;histoire&quot;]&lt;-10
+ecole[ecole$info&lt;0,&quot;info&quot;]&lt;-0 
+ecole[ecole$art&lt;0,&quot;art&quot;]&lt;-0
+ecole[ecole$histoire&lt;0,&quot;histoire&quot;]&lt;-0 </code></pre>
+<p>Maintenant voyons de quoi a l’aire notre base de données ecole.</p>
+<pre class="r"><code>head(ecole)</code></pre>
+<pre><code>##   age  sexe classe anglais info art histoire
+## 1  16 Femme      C       8    7   8        7
+## 2  15 Homme      B       8    5   8        3
+## 3  18 Femme      A       9    6   0        5
+## 4  18 Homme      A       7    5   0        7
+## 5  15 Femme      A       9    7   1        5
+## 6  19 Homme      A       8    9  10        1</code></pre>
+<pre class="r"><code>str(ecole)</code></pre>
+<pre><code>## &#39;data.frame&#39;:    423 obs. of  7 variables:
+##  $ age     : num  16 15 18 18 15 19 17 17 18 17 ...
+##  $ sexe    : chr  &quot;Femme&quot; &quot;Homme&quot; &quot;Femme&quot; &quot;Homme&quot; ...
+##  $ classe  : chr  &quot;C&quot; &quot;B&quot; &quot;A&quot; &quot;A&quot; ...
+##  $ anglais : num  8 8 9 7 9 8 7 9 9 8 ...
+##  $ info    : num  7 5 6 5 7 9 1 2 4 8 ...
+##  $ art     : num  8 8 0 0 1 10 3 0 3 1 ...
+##  $ histoire: num  7 3 5 7 5 1 6 1 5 4 ...</code></pre>
+<p><em>Remarque: Puisque pour former ce tableau nous avons eu recours à des générations de de nombres aléatoires, nous n’aurons pas exactement les mêmes résultats. Cela a pour conséquences qu’il n’y aura pas d’exemple tirés des résultats (pas de soucis vous ne pouvez pas vous tromper). Par contre, vous aurez des tableaux statistiques différents à chaque fois que vous lancerez ces codes, vous pouvez vous entraîner é tester ce que vous avez appris sur les différents tableaux (remarquez que vous aurez des résultats plutôt similaires par agrégation). Pour cela, à chaque fois que vous générer un nouveau tableau, stockez-le dans un nouvel objet (par exemple e0&lt;-ecole) puis continuer jusqu’au dernier tableau que vous voulez créer.</em></p>
+<p>Puisque nous allons utiliser des codes pour faire nos statistiques, nous aurons besoin d’un tableau dans une fenêtre à part pour pouvoir avoir les données en permanence disponible. Pour cela nous utilisons la fonction <code>View()</code>:</p>
+<pre class="r"><code>View(ecole) </code></pre>
+<p>C’est intéressant, mais nous avons 423 lignes de données pour 7 variables. Nous souhaitons résumer toutes ces informations en de petites informations facilement interprétables. Pour cela, nous allons utiliser la fonction <code>summary()</code>:</p>
+<pre class="r"><code>summary(ecole) </code></pre>
+<pre><code>##       age            sexe              classe             anglais      
+##  Min.   :15.00   Length:423         Length:423         Min.   : 5.000  
+##  1st Qu.:16.00   Class :character   Class :character   1st Qu.: 7.000  
+##  Median :17.00   Mode  :character   Mode  :character   Median : 8.000  
+##  Mean   :16.92                                         Mean   : 7.976  
+##  3rd Qu.:18.00                                         3rd Qu.: 9.000  
+##  Max.   :20.00                                         Max.   :10.000  
+##       info             art            histoire     
+##  Min.   : 0.000   Min.   : 0.000   Min.   : 1.000  
+##  1st Qu.: 4.000   1st Qu.: 2.000   1st Qu.: 5.000  
+##  Median : 5.000   Median : 4.000   Median : 6.000  
+##  Mean   : 5.324   Mean   : 4.139   Mean   : 5.884  
+##  3rd Qu.: 7.000   3rd Qu.: 6.000   3rd Qu.: 7.000  
+##  Max.   :10.000   Max.   :10.000   Max.   :10.000</code></pre>
+<p>Nous pouvons voir qu’il existe plusieurs types de variables. Le premier type sont les variables métriques (numériques ou quantitatives) tel que l’âge et les notes dans les différentes matières. Dans les variables métriques, nous avons encore 2 catégories: les discrètes qui représentent un nombre réduit de valeur possible, mais des valeur fixe (ex. nombre de pièce dans un appartement) et les continues qui représentent des variables ayant un grand nombre de valeurs possibles (ex. salaire). Pour ces variables R donnes le minimum, le premier quartil, la médiane, la moyenne, le troisième quartil et le maximum. Nous pouvons voir que les jeunes de nos échantillons ont en moyenne 17 ans par exemple. Puis nous observons un second type de variable: Les variables catégorielles (qualitatives). Ce sont des catégories. à l’intérieur de ce type de variable, nous avons encore 2 sous-groupes: les variables nominales qui sont de simple catégorie nominative (ex. sexe de la personne) et les variables ordinales dont les différentes catégories ont une hiérarchie (ex. le niveau de satisfaction pour un produit). Lorsque nous regardons nos variables “sexe” et “classe”, nous remarquons qu’ils sont considérés par R comme des chaîne de caractères… Nous ne voulons pas de ça en statistiques, parce que mis à part les tableaux, nous ne pouvons rien faire avec. Nous devons les transformer en facteur pour pouvoir exploiter ces données pleinement. Ici, nous avons délibérément laissé ces variables sous-forme de chaine de caractères car il arrive qu’en important vos bases de données, R importe vos variables catégorielles sous cette forme, de plus pouvons mettre en pratique la transformation en facteur.</p>
+</div>
+<div id="transformations-des-données" class="section level2">
+<h2>Transformations des données</h2>
+<p>Pour pouvoir transformer ces chaînes de caractères en facteur, nous devons utiliser l’une des fonctions de la famille de fonction “as”:</p>
+<ul>
+<li><code>as.factor()</code></li>
+<li><code>as.ordered()</code></li>
+<li><code>as.numeric()</code></li>
+<li><code>as.character()</code></li>
+<li><code>as.complex()</code></li>
+<li><code>as.data.frame()</code></li>
+</ul>
+<p>Ces fonctions permettent de traiter les objets considérés (voire les transformer) en un type particulier de données. Lorsque nous voulons transformer nos variables en facteur, nous les transformons en variables catégorielles et c’est comme ça que R les traitera à l’avenir. Pour cela, nous allons stocker la transformation à la place des anciennes valeurs dans le tableau de données avec <code>as.factor()</code>:</p>
+<pre class="r"><code>ecole$sexe&lt;-as.factor(ecole$sexe)
+ecole$classe&lt;-as.factor(ecole$classe) </code></pre>
+<p>Nous pouvons contrôler le changement avec la fonction <code>summary()</code>:</p>
+<pre class="r"><code>summary(ecole) </code></pre>
+<pre><code>##       age           sexe     classe     anglais            info       
+##  Min.   :15.00   Femme:200   A:126   Min.   : 5.000   Min.   : 0.000  
+##  1st Qu.:16.00   Homme:223   B:157   1st Qu.: 7.000   1st Qu.: 4.000  
+##  Median :17.00               C:140   Median : 8.000   Median : 5.000  
+##  Mean   :16.92                       Mean   : 7.976   Mean   : 5.324  
+##  3rd Qu.:18.00                       3rd Qu.: 9.000   3rd Qu.: 7.000  
+##  Max.   :20.00                       Max.   :10.000   Max.   :10.000  
+##       art            histoire     
+##  Min.   : 0.000   Min.   : 1.000  
+##  1st Qu.: 2.000   1st Qu.: 5.000  
+##  Median : 4.000   Median : 6.000  
+##  Mean   : 4.139   Mean   : 5.884  
+##  3rd Qu.: 6.000   3rd Qu.: 7.000  
+##  Max.   :10.000   Max.   :10.000</code></pre>
+<p>Cette fois-ci R nous indique les différentes catégories de nos variables
+catégorielles. Ici nous avons des variables nominales, nous présenterons les
+variables ordinales plus loin dans ce tuto.</p>
+</div>
+<div id="tableaux" class="section level2">
+<h2>Tableaux</h2>
+<p>Ce que nous faisons ensuite après avoir résumé nos données, c’est d’utiliser les tableaux pour essayer de remarquer des particularités. Pour nous faciliter la tâche, nous allons utiliser la fonction <code>attach()</code> pour fixer notre tableau de données afin d’éviter d’avoir à utiliser l’expression “ecole$” avant chaque variable (ref tuto sur les tableaux de données):</p>
+<pre class="r"><code>attach(ecole)</code></pre>
+<p><em>Note: je ne recommande pas cette technique, surtout lorsque vous avez plus d’objets à gérer.</em></p>
+<p>Pour générer des tableaux, il y a 2 types de fonction: table() et ftable(). Les deux donnent des résultats similaires, mais le ftable est plus compact pour les tableaux avec beaucoup variables. Mais <code>table()</code> cela permet de diviser les tableaux. Au final chacun choisit selon ses goûts et selon la situation. Les tableaux sont utiles pour les variables catégorielles:</p>
+<pre class="r"><code># Une variable (similaires)
+table(sexe)</code></pre>
+<pre><code>## sexe
+## Femme Homme 
+##   200   223</code></pre>
+<pre class="r"><code>ftable(sexe)</code></pre>
+<pre><code>## sexe Femme Homme
+##                 
+##        200   223</code></pre>
+<pre class="r"><code># Deux variables (similaires)
+table(sexe,classe)</code></pre>
+<pre><code>##        classe
+## sexe     A  B  C
+##   Femme 56 77 67
+##   Homme 70 80 73</code></pre>
+<pre class="r"><code>ftable(sexe,classe) </code></pre>
+<pre><code>##       classe  A  B  C
+## sexe                 
+## Femme        56 77 67
+## Homme        70 80 73</code></pre>
+<pre class="r"><code># Trois variables (différence)
+table(sexe,classe,age)</code></pre>
+<pre><code>## , , age = 15
+## 
+##        classe
+## sexe     A  B  C
+##   Femme 11 14  9
+##   Homme 18 18 10
+## 
+## , , age = 16
+## 
+##        classe
+## sexe     A  B  C
+##   Femme  9 13 18
+##   Homme 14 17 13
+## 
+## , , age = 17
+## 
+##        classe
+## sexe     A  B  C
+##   Femme 22 25 19
+##   Homme 18 24 31
+## 
+## , , age = 18
+## 
+##        classe
+## sexe     A  B  C
+##   Femme  6 17 11
+##   Homme  7 12  7
+## 
+## , , age = 19
+## 
+##        classe
+## sexe     A  B  C
+##   Femme  2  3  8
+##   Homme  4  7  6
+## 
+## , , age = 20
+## 
+##        classe
+## sexe     A  B  C
+##   Femme  6  5  2
+##   Homme  9  2  6</code></pre>
+<pre class="r"><code>ftable(sexe,classe,age) </code></pre>
+<pre><code>##              age 15 16 17 18 19 20
+## sexe  classe                      
+## Femme A          11  9 22  6  2  6
+##       B          14 13 25 17  3  5
+##       C           9 18 19 11  8  2
+## Homme A          18 14 18  7  4  9
+##       B          18 17 24 12  7  2
+##       C          10 13 31  7  6  6</code></pre>
+<pre class="r"><code># Et plus encore...
+table(sexe,classe,age,histoire)</code></pre>
+<pre><code>## , , age = 15, histoire = 1
+## 
+##        classe
+## sexe    A B C
+##   Femme 0 0 0
+##   Homme 0 0 0
+## 
+## , , age = 16, histoire = 1
+## 
+##        classe
+## sexe    A B C
+##   Femme 1 0 0
+##   Homme 0 0 0
+## 
+## , , age = 17, histoire = 1
+## 
+##        classe
+## sexe    A B C
+##   Femme 1 0 0
+##   Homme 0 1 0
+## 
+## , , age = 18, histoire = 1
+## 
+##        classe
+## sexe    A B C
+##   Femme 0 0 0
+##   Homme 0 1 0
+## 
+## , , age = 19, histoire = 1
+## 
+##        classe
+## sexe    A B C
+##   Femme 0 0 0
+##   Homme 1 0 0
+## 
+## , , age = 20, histoire = 1
+## 
+##        classe
+## sexe    A B C
+##   Femme 0 0 0
+##   Homme 0 0 0
+## 
+## , , age = 15, histoire = 2
+## 
+##        classe
+## sexe    A B C
+##   Femme 0 0 0
+##   Homme 0 2 0
+## 
+## , , age = 16, histoire = 2
+## 
+##        classe
+## sexe    A B C
+##   Femme 0 0 0
+##   Homme 0 0 0
+## 
+## , , age = 17, histoire = 2
+## 
+##        classe
+## sexe    A B C
+##   Femme 0 2 0
+##   Homme 0 1 3
+## 
+## , , age = 18, histoire = 2
+## 
+##        classe
+## sexe    A B C
+##   Femme 0 2 0
+##   Homme 1 3 0
+## 
+## , , age = 19, histoire = 2
+## 
+##        classe
+## sexe    A B C
+##   Femme 0 0 0
+##   Homme 0 0 0
+## 
+## , , age = 20, histoire = 2
+## 
+##        classe
+## sexe    A B C
+##   Femme 1 0 0
+##   Homme 0 0 1
+## 
+## , , age = 15, histoire = 3
+## 
+##        classe
+## sexe    A B C
+##   Femme 0 1 0
+##   Homme 1 3 0
+## 
+## , , age = 16, histoire = 3
+## 
+##        classe
+## sexe    A B C
+##   Femme 0 1 3
+##   Homme 0 0 0
+## 
+## , , age = 17, histoire = 3
+## 
+##        classe
+## sexe    A B C
+##   Femme 2 1 0
+##   Homme 0 2 1
+## 
+## , , age = 18, histoire = 3
+## 
+##        classe
+## sexe    A B C
+##   Femme 0 2 0
+##   Homme 0 0 0
+## 
+## , , age = 19, histoire = 3
+## 
+##        classe
+## sexe    A B C
+##   Femme 0 1 0
+##   Homme 1 0 1
+## 
+## , , age = 20, histoire = 3
+## 
+##        classe
+## sexe    A B C
+##   Femme 0 1 0
+##   Homme 0 0 0
+## 
+## , , age = 15, histoire = 4
+## 
+##        classe
+## sexe    A B C
+##   Femme 2 3 1
+##   Homme 5 2 0
+## 
+## , , age = 16, histoire = 4
+## 
+##        classe
+## sexe    A B C
+##   Femme 2 1 1
+##   Homme 2 1 3
+## 
+## , , age = 17, histoire = 4
+## 
+##        classe
+## sexe    A B C
+##   Femme 0 4 1
+##   Homme 3 2 1
+## 
+## , , age = 18, histoire = 4
+## 
+##        classe
+## sexe    A B C
+##   Femme 3 3 3
+##   Homme 0 1 2
+## 
+## , , age = 19, histoire = 4
+## 
+##        classe
+## sexe    A B C
+##   Femme 0 0 3
+##   Homme 0 3 1
+## 
+## , , age = 20, histoire = 4
+## 
+##        classe
+## sexe    A B C
+##   Femme 0 2 0
+##   Homme 1 0 3
+## 
+## , , age = 15, histoire = 5
+## 
+##        classe
+## sexe    A B C
+##   Femme 2 2 0
+##   Homme 3 3 4
+## 
+## , , age = 16, histoire = 5
+## 
+##        classe
+## sexe    A B C
+##   Femme 0 1 2
+##   Homme 4 5 3
+## 
+## , , age = 17, histoire = 5
+## 
+##        classe
+## sexe    A B C
+##   Femme 3 3 5
+##   Homme 3 4 8
+## 
+## , , age = 18, histoire = 5
+## 
+##        classe
+## sexe    A B C
+##   Femme 1 4 3
+##   Homme 3 2 1
+## 
+## , , age = 19, histoire = 5
+## 
+##        classe
+## sexe    A B C
+##   Femme 0 0 1
+##   Homme 1 0 1
+## 
+## , , age = 20, histoire = 5
+## 
+##        classe
+## sexe    A B C
+##   Femme 0 0 0
+##   Homme 3 2 1
+## 
+## , , age = 15, histoire = 6
+## 
+##        classe
+## sexe    A B C
+##   Femme 2 3 4
+##   Homme 4 2 1
+## 
+## , , age = 16, histoire = 6
+## 
+##        classe
+## sexe    A B C
+##   Femme 2 4 3
+##   Homme 3 3 1
+## 
+## , , age = 17, histoire = 6
+## 
+##        classe
+## sexe    A B C
+##   Femme 3 6 3
+##   Homme 2 8 5
+## 
+## , , age = 18, histoire = 6
+## 
+##        classe
+## sexe    A B C
+##   Femme 1 6 1
+##   Homme 0 0 2
+## 
+## , , age = 19, histoire = 6
+## 
+##        classe
+## sexe    A B C
+##   Femme 0 1 1
+##   Homme 0 1 1
+## 
+## , , age = 20, histoire = 6
+## 
+##        classe
+## sexe    A B C
+##   Femme 0 0 1
+##   Homme 3 0 1
+## 
+## , , age = 15, histoire = 7
+## 
+##        classe
+## sexe    A B C
+##   Femme 4 1 1
+##   Homme 3 3 3
+## 
+## , , age = 16, histoire = 7
+## 
+##        classe
+## sexe    A B C
+##   Femme 2 3 4
+##   Homme 1 5 2
+## 
+## , , age = 17, histoire = 7
+## 
+##        classe
+## sexe    A B C
+##   Femme 8 2 5
+##   Homme 3 1 6
+## 
+## , , age = 18, histoire = 7
+## 
+##        classe
+## sexe    A B C
+##   Femme 1 0 3
+##   Homme 2 3 0
+## 
+## , , age = 19, histoire = 7
+## 
+##        classe
+## sexe    A B C
+##   Femme 1 0 1
+##   Homme 1 2 2
+## 
+## , , age = 20, histoire = 7
+## 
+##        classe
+## sexe    A B C
+##   Femme 2 2 0
+##   Homme 1 0 0
+## 
+## , , age = 15, histoire = 8
+## 
+##        classe
+## sexe    A B C
+##   Femme 1 1 1
+##   Homme 1 3 1
+## 
+## , , age = 16, histoire = 8
+## 
+##        classe
+## sexe    A B C
+##   Femme 2 2 3
+##   Homme 2 1 3
+## 
+## , , age = 17, histoire = 8
+## 
+##        classe
+## sexe    A B C
+##   Femme 1 5 4
+##   Homme 7 3 4
+## 
+## , , age = 18, histoire = 8
+## 
+##        classe
+## sexe    A B C
+##   Femme 0 0 1
+##   Homme 1 2 1
+## 
+## , , age = 19, histoire = 8
+## 
+##        classe
+## sexe    A B C
+##   Femme 0 0 2
+##   Homme 0 0 0
+## 
+## , , age = 20, histoire = 8
+## 
+##        classe
+## sexe    A B C
+##   Femme 1 0 1
+##   Homme 1 0 0
+## 
+## , , age = 15, histoire = 9
+## 
+##        classe
+## sexe    A B C
+##   Femme 0 3 1
+##   Homme 1 0 1
+## 
+## , , age = 16, histoire = 9
+## 
+##        classe
+## sexe    A B C
+##   Femme 0 1 1
+##   Homme 2 1 1
+## 
+## , , age = 17, histoire = 9
+## 
+##        classe
+## sexe    A B C
+##   Femme 2 1 1
+##   Homme 0 1 1
+## 
+## , , age = 18, histoire = 9
+## 
+##        classe
+## sexe    A B C
+##   Femme 0 0 0
+##   Homme 0 0 1
+## 
+## , , age = 19, histoire = 9
+## 
+##        classe
+## sexe    A B C
+##   Femme 0 0 0
+##   Homme 0 1 0
+## 
+## , , age = 20, histoire = 9
+## 
+##        classe
+## sexe    A B C
+##   Femme 1 0 0
+##   Homme 0 0 0
+## 
+## , , age = 15, histoire = 10
+## 
+##        classe
+## sexe    A B C
+##   Femme 0 0 1
+##   Homme 0 0 0
+## 
+## , , age = 16, histoire = 10
+## 
+##        classe
+## sexe    A B C
+##   Femme 0 0 1
+##   Homme 0 1 0
+## 
+## , , age = 17, histoire = 10
+## 
+##        classe
+## sexe    A B C
+##   Femme 2 1 0
+##   Homme 0 1 2
+## 
+## , , age = 18, histoire = 10
+## 
+##        classe
+## sexe    A B C
+##   Femme 0 0 0
+##   Homme 0 0 0
+## 
+## , , age = 19, histoire = 10
+## 
+##        classe
+## sexe    A B C
+##   Femme 1 1 0
+##   Homme 0 0 0
+## 
+## , , age = 20, histoire = 10
+## 
+##        classe
+## sexe    A B C
+##   Femme 1 0 0
+##   Homme 0 0 0</code></pre>
+<pre class="r"><code>ftable(sexe,classe,age,histoire)</code></pre>
+<pre><code>##                  histoire 1 2 3 4 5 6 7 8 9 10
+## sexe  classe age                              
+## Femme A      15           0 0 0 2 2 2 4 1 0  0
+##              16           1 0 0 2 0 2 2 2 0  0
+##              17           1 0 2 0 3 3 8 1 2  2
+##              18           0 0 0 3 1 1 1 0 0  0
+##              19           0 0 0 0 0 0 1 0 0  1
+##              20           0 1 0 0 0 0 2 1 1  1
+##       B      15           0 0 1 3 2 3 1 1 3  0
+##              16           0 0 1 1 1 4 3 2 1  0
+##              17           0 2 1 4 3 6 2 5 1  1
+##              18           0 2 2 3 4 6 0 0 0  0
+##              19           0 0 1 0 0 1 0 0 0  1
+##              20           0 0 1 2 0 0 2 0 0  0
+##       C      15           0 0 0 1 0 4 1 1 1  1
+##              16           0 0 3 1 2 3 4 3 1  1
+##              17           0 0 0 1 5 3 5 4 1  0
+##              18           0 0 0 3 3 1 3 1 0  0
+##              19           0 0 0 3 1 1 1 2 0  0
+##              20           0 0 0 0 0 1 0 1 0  0
+## Homme A      15           0 0 1 5 3 4 3 1 1  0
+##              16           0 0 0 2 4 3 1 2 2  0
+##              17           0 0 0 3 3 2 3 7 0  0
+##              18           0 1 0 0 3 0 2 1 0  0
+##              19           1 0 1 0 1 0 1 0 0  0
+##              20           0 0 0 1 3 3 1 1 0  0
+##       B      15           0 2 3 2 3 2 3 3 0  0
+##              16           0 0 0 1 5 3 5 1 1  1
+##              17           1 1 2 2 4 8 1 3 1  1
+##              18           1 3 0 1 2 0 3 2 0  0
+##              19           0 0 0 3 0 1 2 0 1  0
+##              20           0 0 0 0 2 0 0 0 0  0
+##       C      15           0 0 0 0 4 1 3 1 1  0
+##              16           0 0 0 3 3 1 2 3 1  0
+##              17           0 3 1 1 8 5 6 4 1  2
+##              18           0 0 0 2 1 2 0 1 1  0
+##              19           0 0 1 1 1 1 2 0 0  0
+##              20           0 1 0 3 1 1 0 0 0  0</code></pre>
+<p>Ce qui se fait souvent dans R c’est de stocker le résultat d’un code dans un objet pour pouvoir l’utiliser dans plusieurs situations. Par exemple, nous
+nous pouvons le faire avec la fonction <code>addmargin()</code> ajoutant les sommes aux
+extrémités du tableau:</p>
+<pre class="r"><code>t1&lt;-table(sexe,classe)
+addmargins(t1)</code></pre>
+<pre><code>##        classe
+## sexe      A   B   C Sum
+##   Femme  56  77  67 200
+##   Homme  70  80  73 223
+##   Sum   126 157 140 423</code></pre>
+<p>Il est possible de le faire en un coup: addmargins(table(sexe,classe))
+Mais conserver un objet contenant la table est bien plus pratique, puisque nous pouvons l’appeler en permanence pour d’autres fonctions plus rapidement. Nous allons conserver “t1” pour l’instant.</p>
+<p>Remarque: Il vaut mieux utiliser <code>table()</code> avec <code>addmargins()</code>, plutôt que <code>ftable()</code>, puisqu’avec le premier on conserve les en-têtes des tableaux.</p>
+<pre class="r"><code># Nous pouvons ajouter des proportions au tableau (proportion totale)
+prop.table(t1)</code></pre>
+<pre><code>##        classe
+## sexe            A         B         C
+##   Femme 0.1323877 0.1820331 0.1583924
+##   Homme 0.1654846 0.1891253 0.1725768</code></pre>
+<pre class="r"><code># Proportion par ligne
+prop.table(t1,1)</code></pre>
+<pre><code>##        classe
+## sexe            A         B         C
+##   Femme 0.2800000 0.3850000 0.3350000
+##   Homme 0.3139013 0.3587444 0.3273543</code></pre>
+<pre class="r"><code># Proportion par colonne
+prop.table(t1,2) </code></pre>
+<pre><code>##        classe
+## sexe            A         B         C
+##   Femme 0.4444444 0.4904459 0.4785714
+##   Homme 0.5555556 0.5095541 0.5214286</code></pre>
+<p>Puisqu’il y a beaucoup de nombres après la virgule, nous pouvons arrondir avec la fonction <code>round()</code> à:</p>
+<pre class="r"><code># deux nombres après la virgule
+round(prop.table(t1),2)</code></pre>
+<pre><code>##        classe
+## sexe       A    B    C
+##   Femme 0.13 0.18 0.16
+##   Homme 0.17 0.19 0.17</code></pre>
+<pre class="r"><code># un nombre après la virgule
+round(prop.table(t1),1)</code></pre>
+<pre><code>##        classe
+## sexe      A   B   C
+##   Femme 0.1 0.2 0.2
+##   Homme 0.2 0.2 0.2</code></pre>
+<pre class="r"><code># aucun nombre après la virgule (c&#39;est juste un exemple)
+round(prop.table(t1),0) </code></pre>
+<pre><code>##        classe
+## sexe    A B C
+##   Femme 0 0 0
+##   Homme 0 0 0</code></pre>
+<p>Parfois nous souhaitons un tableau lisible. Nous souhaitons donc utiliser les pourcentages, il nous suffit de multiplier notre expression par 100:</p>
+<pre class="r"><code>round(100*prop.table(t1),2)</code></pre>
+<pre><code>##        classe
+## sexe        A     B     C
+##   Femme 13.24 18.20 15.84
+##   Homme 16.55 18.91 17.26</code></pre>
+<pre class="r"><code># sans nombre après la virgule
+round(100*prop.table(t1),0)</code></pre>
+<pre><code>##        classe
+## sexe     A  B  C
+##   Femme 13 18 16
+##   Homme 17 19 17</code></pre>
+<p>Nous pouvons aussi combiner les fonctions addmargins, prop.table et round:</p>
+<pre class="r"><code>addmargins(round(100*prop.table(t1),0))</code></pre>
+<pre><code>##        classe
+## sexe      A   B   C Sum
+##   Femme  13  18  16  47
+##   Homme  17  19  17  53
+##   Sum    30  37  33 100</code></pre>
+<p>Ainsi, nous avons les pourcentages pour les lignes, donc la variable sexe (qu’elle est le pourcentage de femme, quel est le pourcentage d’homme), pour les colonnes donc la variable classe (quel est le pourcentage de personne dans chaque classe) et tout en bas à droite, nous avons le total qui représente 100%. Remarque: puisque les valeurs sont générées aléatoirement, nous n’aurons jamais les mêmes résultats ou tableaux. Raison pour laquelle nous ne donnerons pas d’exemple de lecture de tableau (mais la lecture est ici assez simple).</p>
+<p>Vous pouvez imaginer simplement ce que vous souhaitez comme combinaison de tableaux.</p>
+</div>
+<div id="résumé-statistique" class="section level2">
+<h2>Résumé statistique</h2>
+<p>Revenons, à notre fonction <code>summary()</code>. Elle a l’avantage de combiner les fonctions <code>quantile()</code> (mais aussi <code>min()</code>, <code>median()</code> et <code>max()</code>), et <code>mean().</code> qui sont de bonnes mesures de position et nous permettent d’avoir un premier avis sur la distribution de notre échantillon. Nous pouvons ajouter à cela les mesures de dispersions que sont la variance <code>var()</code> et l’écart-type <code>sd()</code>. Avec toutes ces fonctions, nous pouvons faire des analyses plus en profondeur. Nous avions vu qu’il était d’utiliser la fonction <code>summary()</code> avec le tableau de données entier. Mais nous pouvons aussi le faire avec les variables individuellement:</p>
+<pre class="r"><code>summary(histoire)</code></pre>
+<pre><code>##    Min. 1st Qu.  Median    Mean 3rd Qu.    Max. 
+##   1.000   5.000   6.000   5.884   7.000  10.000</code></pre>
+<pre class="r"><code># ou
+summary(art) </code></pre>
+<pre><code>##    Min. 1st Qu.  Median    Mean 3rd Qu.    Max. 
+##   0.000   2.000   4.000   4.139   6.000  10.000</code></pre>
+<p>Lorsque les variables sont des facteurs, nous obtenons le même résultat qu’en utilisant la fonction <code>table()</code>:</p>
+<pre class="r"><code>summary(sexe)</code></pre>
+<pre><code>## Femme Homme 
+##   200   223</code></pre>
+<pre class="r"><code>table(sexe) </code></pre>
+<pre><code>## sexe
+## Femme Homme 
+##   200   223</code></pre>
+<p>Nous pouvons faire les tests statistiques pour les éléments partiels des variables. Par exemple quelle est la moyenne d’art des 10 premières personnes ou des individus 9, 52, 78, 104, 165, 222, 356 et 420:</p>
+<pre class="r"><code>mean(art[1:10])</code></pre>
+<pre><code>## [1] 3.4</code></pre>
+<pre class="r"><code>mean(art[c(9,52,78,104,165,222,356,420)]) </code></pre>
+<pre><code>## [1] 4</code></pre>
+<p>Remarque: Tout ce qui est valable pour l’une des fonctions statistiques présentées
+plus tôt, l’est aussi pour le reste des fonctions statistiques.</p>
+<p>Nous pouvons aussi voir la moyenne des individus en info lorsque leur note dépasse 5:</p>
+<pre class="r"><code>mean(info[info&gt;5]) </code></pre>
+<pre><code>## [1] 7.77</code></pre>
+<p>Mais également leur moyenne lorsqu’ils sont en dessus et en dessous de la moyenne:</p>
+<pre class="r"><code>mean(info[info&gt;mean(info)])</code></pre>
+<pre><code>## [1] 7.77</code></pre>
+<pre class="r"><code>mean(info[info&lt;mean(info)])</code></pre>
+<pre><code>## [1] 3.130045</code></pre>
+<p>Nous pouvons aussi voir leur moyenne d’histoire lorsque ce sont des hommes ou des femmes:</p>
+<pre class="r"><code>mean(histoire[sexe==&quot;Homme&quot;])</code></pre>
+<pre><code>## [1] 5.762332</code></pre>
+<pre class="r"><code>mean(histoire[sexe==&quot;Femme&quot;])</code></pre>
+<pre><code>## [1] 6.02</code></pre>
+<p>Nous pouvons voir leur moyenne en anglais, lorsque les individus sont à la fois dans la classe C et ont 17 ans:</p>
+<pre class="r"><code>mean(anglais[classe==&quot;C&quot; &amp; age==17])</code></pre>
+<pre><code>## [1] 7.94</code></pre>
+<p>Lorsqu’on commence à utiliser des restrictions aussi précises, il est important de contrôler si la population dont on calcule le paramètre statistique est suffisamment grande avec la fonction length:</p>
+<pre class="r"><code>length(anglais[classe==&quot;C&quot; &amp; age==17]) </code></pre>
+<pre><code>## [1] 50</code></pre>
+<p>Nous pouvons aussi voir la moyenne en art des personnes se trouvant dans la classe C ou A ayant 18 ans et plus et étant des hommes:</p>
+<pre class="r"><code>mean(art[classe==&quot;C&quot; | classe==&quot;A&quot; &amp; age&gt;=18 &amp; sexe==&quot;Homme&quot;])</code></pre>
+<pre><code>## [1] 5.7</code></pre>
+<p>Bref, vous l’aurez compris, vous pouvez essayer toutes les combinaisons que vous souhaitez pour extraire les informations statistiques désirées.</p>
+</div>
+<div id="valeurs-manquantes" class="section level2">
+<h2>Valeurs manquantes</h2>
+<p>Nous allons maintenant voir comment gérer les valeurs manquantes. Nous allons générer une nouvelle variable complètement aléatoire concernant le nombre de cahiers que les individus possèdent (cette information est complètement inutile au cas où vous ne l’auriez pas compris). Nous utiliserons cette variable pour apprendre à gérer les variables manquantes. Dans notre scénario, nous posons la question à nos répondants. Une partie d’entre eux hésite sur le nombre de cahiers en leur possession, une autre le sait parfaitement et une autre pense “Franchement, je me demande à quoi ça sert ce cirque” et c’est justement cette partie qui ne sait pas le nombre de cahiers en leur possession. En générale, lorsque l’information est manquante, la valeur de la variable devient NA. Nous allons générer cette variable et l’ajouter à notre base de données:</p>
+<pre class="r"><code>c&lt;-c(1:5,4,2,6,7,NA,NA,NA)
+cahier&lt;-sample(c,423,replace=TRUE)
+ecole&lt;-data.frame(ecole,cahier)
+rm(c,cahier) </code></pre>
+<p>Maintenant que notre tableau de données vient de changer, nous devons le détacher puis le rattacher de nouveau pour mettre à jour les changements:</p>
+<pre class="r"><code>detach(ecole)
+attach(ecole) </code></pre>
+<p>Lorsque vous lancez une fonction statistique, le résultat peut être différent. commençons par exemple par la fonction summary:</p>
+<pre class="r"><code>summary(ecole)</code></pre>
+<pre><code>##       age           sexe     classe     anglais            info       
+##  Min.   :15.00   Femme:200   A:126   Min.   : 5.000   Min.   : 0.000  
+##  1st Qu.:16.00   Homme:223   B:157   1st Qu.: 7.000   1st Qu.: 4.000  
+##  Median :17.00               C:140   Median : 8.000   Median : 5.000  
+##  Mean   :16.92                       Mean   : 7.976   Mean   : 5.324  
+##  3rd Qu.:18.00                       3rd Qu.: 9.000   3rd Qu.: 7.000  
+##  Max.   :20.00                       Max.   :10.000   Max.   :10.000  
+##                                                                       
+##       art            histoire          cahier     
+##  Min.   : 0.000   Min.   : 1.000   Min.   :1.000  
+##  1st Qu.: 2.000   1st Qu.: 5.000   1st Qu.:2.000  
+##  Median : 4.000   Median : 6.000   Median :4.000  
+##  Mean   : 4.139   Mean   : 5.884   Mean   :3.953  
+##  3rd Qu.: 6.000   3rd Qu.: 7.000   3rd Qu.:5.000  
+##  Max.   :10.000   Max.   :10.000   Max.   :7.000  
+##                                    NA&#39;s   :104</code></pre>
+<pre class="r"><code>summary(cahier) </code></pre>
+<pre><code>##    Min. 1st Qu.  Median    Mean 3rd Qu.    Max.    NA&#39;s 
+##   1.000   2.000   4.000   3.953   5.000   7.000     104</code></pre>
+<p>Dans les deux cas, la fonction nous indique bien ce que nous cherchons et indique en plus le nombre de valeurs manquantes sous “NA’s”. Dans ce cas si, la fonction fait son travail avec les valeurs disponibles. Mais dans le cas d’autres fonctions telles que <code>median()</code>, <code>var()</code>, <code>sd()</code>, <code>mean()</code>, <code>min()</code>, <code>max()</code> ou <code>quantile()</code> renvoi comme résultat “NA”. Pour pouvoir afficher le résultat désiré, il faut ajouter “na.rm=TRUE” aux fonctions:</p>
+<pre class="r"><code># Exemple avec mean()
+mean(cahier, na.rm=TRUE) </code></pre>
+<pre><code>## [1] 3.952978</code></pre>
+<p>Remarque: Vous commencez gentiment à comprendre comment fonctionne la structure de R. C’est pourquoi, dans la suite, nous ne décortiquerons pas les fonctions et vous laissons l’exercice de les explorer en vous aidant de la fonction <code>help()</code>, de votre bon sens et bien sûre d’internet.</p>
+<p>Nous décidons de partir du principe que toutes les personnes qui n’ont pas pu nous donner un nombre de cahiers n’en ont pas, donc zéro (c’est une décision très risquée en réalité, mais nous faisons ça en tant qu’exemple pour introduire le changement de valeur dans les variables). Pour faire cela nous utilise le code suivant:</p>
+<pre class="r"><code>cahier[is.na(cahier)]&lt;-0
+table(ecole$cahier)</code></pre>
+<pre><code>## 
+##  1  2  3  4  5  6  7 
+## 26 64 39 73 42 37 38</code></pre>
+<p><em>Remarque: Ici nous n’avons pas utilisé la variable cahier du tableau de données ecole pour éviter d’avoir trop de changement.</em></p>
+<p>Finalement, nous décidons de transformer toutes les valeurs trois de notre tableau en 1 puisque nous nous rendons compte que selon le règlement de l’école d’où est issue notre population, le cahier est obligatoire. Voici le code:</p>
+<pre class="r"><code>ecole[ecole$cahier==3 &amp; !is.na(ecole$cahier),&quot;cahier&quot;]&lt;-1</code></pre>
+<p><em>Remarque: Puisque nous avons des valeurs manquantes dans nos données, nous devons les exclure de notre sélection pour que le code fonctionne, sinon vous aurez une erreur avec la fonction <code>!is.na()</code>.</em></p>
+<p>Nous pouvons tout aussi bien exclure les valeurs manquantes de la variable ou de tous les tableaux de données:</p>
+<pre class="r"><code>cahier.sans.na &lt;- na.omit(cahier)
+data.sans.na &lt;- na.omit(cahier)</code></pre>
+<p>Bon, au fond cette variable ne nous sert à rien en dehors des exemples donnés, nous allons donc la supprimer:</p>
+<pre class="r"><code>ecole$cahier&lt;-NULL </code></pre>
+</div>
+<div id="variable-ordinale" class="section level2">
+<h2>Variable ordinale</h2>
+<p>Nous allons maintenant créer une variable ordinale qui place les personnes dans trois niveaux en fonction de leur moyenne générale: “Moyen” s’ils ont moins de 6 de moyenne générale, “Bien” s’ils ont entre 6 et 7 et “Excellent” s’ils ont plus de 7 de moyenne générale (graduation quasi arbitraire). Nous allons dans un premier temps créer la variable “Moyenne” qui fera la moyenne de toutes les branches en utilisant la fonction <code>rowMeans()</code> (tuto 3):</p>
+<pre class="r"><code>moyenne&lt;-rowMeans(ecole[c(&quot;anglais&quot;,&quot;info&quot;,&quot;art&quot;,&quot;histoire&quot;)]) 
+ecole&lt;-data.frame(ecole,moyenne)
+rm(moyenne) </code></pre>
+<p>Nous avons encore changé le tableau de données, nous devons donc le détacher et l’attacher de nouveau:</p>
+<pre class="r"><code>detach(ecole)
+attach(ecole) </code></pre>
+<p>Maintenant, nous allons nous servir de ces valeurs pour créer notre variable ordinale sur la qualité de la moyenne. Nous pouvons simplement la créer à partir de la variable “moyenne”, mais nous allons plutôt transformer cette variable pour nous entrainer à de nouvelles fonctions. Nous allons dans un premier temps renommer la variable “niveau” pour que ça colle avec ses valeurs.</p>
+<p>La manière la plus simple c’est de le faire interactivement en utilisant la
+fonction <code>fix()</code>. Une fois le code lancé, vous pouvez manuellement modifier le
+tableau qui apparait devant vous:</p>
+<pre class="r"><code>fix(ecole) </code></pre>
+<p>Remarque: écrivez “niveau” strictement comme vous le voyez ici, car R fait prend en considération les castes des lettres. Pour le fonctionnement du Markdown, nous allons quand même créer une colonne niveau manuellement:</p>
+<pre class="r"><code># Ajout d&#39;une colonne &quot;niveau&quot; remplie de zéros selon la longueur du tableau (longueur 423)
+ecole$niveau&lt;-rep(0, times=nrow(ecole))</code></pre>
+<p>Pour recoder les valeurs de notre nouvelle variable “niveau”, nous allons cibler les intervalles de valeurs souhaités et les remplacer par un texte:</p>
+<pre class="r"><code>ecole$niveau[ecole$niveau&lt;6]&lt;-1
+ecole$niveau[ecole$niveau&lt;=7 &amp; ecole$niveau&gt;=6]&lt;-2
+ecole$niveau[ecole$niveau&gt;7]&lt;-3
+ecole$niveau&lt;-ordered(ecole$niveau,levels=c(1,2,3),labels=c(&quot;Moyen&quot;,&quot;Bien&quot;,&quot;Excellent&quot;))</code></pre>
+<p><em>Remarque: il est important de réaliser les codes dans cet ordre, sinon toutes les valeurs seront cumulées dans “moyen”. De plus, il faut toujours spécifier la base de données d’où provient la variable (ici “ecole”).</em></p>
+<p>Voyons ce que ça donne:</p>
+<pre class="r"><code>head(ecole)</code></pre>
+<pre><code>##   age  sexe classe anglais info art histoire moyenne niveau
+## 1  16 Femme      C       8    7   8        7    7.50  Moyen
+## 2  15 Homme      B       8    5   8        3    6.00  Moyen
+## 3  18 Femme      A       9    6   0        5    5.00  Moyen
+## 4  18 Homme      A       7    5   0        7    4.75  Moyen
+## 5  15 Femme      A       9    7   1        5    5.50  Moyen
+## 6  19 Homme      A       8    9  10        1    7.00  Moyen</code></pre>
+<pre class="r"><code>class(moyenne)</code></pre>
+<pre><code>## [1] &quot;numeric&quot;</code></pre>
+<pre class="r"><code>summary(ecole) </code></pre>
+<pre><code>##       age           sexe     classe     anglais            info       
+##  Min.   :15.00   Femme:200   A:126   Min.   : 5.000   Min.   : 0.000  
+##  1st Qu.:16.00   Homme:223   B:157   1st Qu.: 7.000   1st Qu.: 4.000  
+##  Median :17.00               C:140   Median : 8.000   Median : 5.000  
+##  Mean   :16.92                       Mean   : 7.976   Mean   : 5.324  
+##  3rd Qu.:18.00                       3rd Qu.: 9.000   3rd Qu.: 7.000  
+##  Max.   :20.00                       Max.   :10.000   Max.   :10.000  
+##       art            histoire         moyenne            niveau   
+##  Min.   : 0.000   Min.   : 1.000   Min.   :3.000   Moyen    :423  
+##  1st Qu.: 2.000   1st Qu.: 5.000   1st Qu.:5.000   Bien     :  0  
+##  Median : 4.000   Median : 6.000   Median :5.750   Excellent:  0  
+##  Mean   : 4.139   Mean   : 5.884   Mean   :5.831                  
+##  3rd Qu.: 6.000   3rd Qu.: 7.000   3rd Qu.:6.750                  
+##  Max.   :10.000   Max.   :10.000   Max.   :9.000</code></pre>
+<p>Nous avons donc réussi à créer notre variable ordinale. L’avantage avec cette “class” en “numeric”, c’est que R reconnait désormais qu’il existe une hiérarchie fixe entre les différentes valeurs que peut prendre la variable.</p>
+<p>Notons que pour tout ce que nous avons montré ici, il existe des bibliothèques de codes (library) téléchargeables qui permettent de simplifier les codes et de faire bien plus. Mais ce sera le sujet d’un futur tuto.</p>
+<p>En attendant, vous pouvez tenter d’apprendre seul à utiliser les fonctions de la famille apply sur ces vidéos YouTube:</p>
+<p><a href="https://www.youtube.com/watchév=f0U74ZvLfQo" class="uri">https://www.youtube.com/watchév=f0U74ZvLfQo</a>
+<a href="https://www.youtube.com/watchév=ejVWRKidi9M" class="uri">https://www.youtube.com/watchév=ejVWRKidi9M</a>
+<a href="https://www.youtube.com/watchév=HmBPDTtb6Bg" class="uri">https://www.youtube.com/watchév=HmBPDTtb6Bg</a></p>
+<p>De manière générale, nous vous recommandons cette chaîne YouTube pour quelques fonctions particulières que nous n’aborderons pas dans nos tutos.</p>
+<p>Remarque: Dans ces tutos, nous présentons les fonctions de base pour une utilisation simple de R, mais il existe de nombreuses fonctions et de possibilités que nous n’explorons pas ici (car ça ferait trop). Nous vous invitons si vous êtes intéressés à faire vos recherches personnelles à côté pour vous familiariser avec R.</p>
+<p>Il y aura probablement un tuto supplémentaire pour l’analyse descriptive.</p>
+<p>Ce tuto est terminé.</p>
+</div>

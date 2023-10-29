@@ -1,0 +1,5 @@
+"0",""
+"0","# Exemple 2"
+"0","starwars %>% "
+"0","  # filter(hair_color == ""grey"")"
+"0","  filter(str_detect(hair_color, ""grey""))"

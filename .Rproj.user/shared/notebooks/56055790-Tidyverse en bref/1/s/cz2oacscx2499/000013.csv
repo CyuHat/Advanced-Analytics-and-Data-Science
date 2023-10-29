@@ -1,0 +1,4 @@
+"0","# Exemple 1"
+"0","starwars %>% "
+"0","  mutate(long = str_length(name),"
+"0","         .after = name)"

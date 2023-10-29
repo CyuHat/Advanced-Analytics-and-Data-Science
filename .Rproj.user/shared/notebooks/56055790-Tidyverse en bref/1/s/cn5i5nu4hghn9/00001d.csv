@@ -1,0 +1,6 @@
+"0",""
+"0","# Exemple 2"
+"0","starwars %>% "
+"0","  select(gender, name, mass) %>% "
+"0","  # group_by(gender) %>%"
+"0","  arrange(gender, name) # Activer .by_group"

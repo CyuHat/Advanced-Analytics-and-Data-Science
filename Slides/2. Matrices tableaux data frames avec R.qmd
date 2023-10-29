@@ -1,0 +1,6 @@
+---
+title: "2. Matrices tableaux data frames avec R"
+author: "Vestin Hategekimana"
+format: revealjs
+editor: visual
+---

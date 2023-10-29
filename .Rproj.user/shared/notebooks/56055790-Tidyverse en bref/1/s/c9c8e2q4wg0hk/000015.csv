@@ -1,0 +1,4 @@
+"0","# Exemple 1"
+"0","starwars %>% "
+"0","  group_by(gender) %>% "
+"0","  transmute(taille = mean(height, na.rm = TRUE)) # Ajouter group_by | plusieures variables"

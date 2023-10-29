@@ -1,0 +1,4 @@
+"0",""
+"0","# Exemple 2"
+"0","starwars %>% "
+"0","  select(last_col(), name, everything()) # autre colonne"

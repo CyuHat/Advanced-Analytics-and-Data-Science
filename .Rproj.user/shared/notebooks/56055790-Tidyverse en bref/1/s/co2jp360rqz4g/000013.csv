@@ -1,0 +1,5 @@
+"0","# Exemple 1"
+"0","starwars %>% "
+"0","  mutate(hair = str_extract(hair_color, ""[a-z]+""),"
+"0","         .after = hair_color) %>% "
+"0","  select(-mass)"

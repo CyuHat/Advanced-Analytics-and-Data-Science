@@ -1,0 +1,4 @@
+"0","# Exemple 1"
+"0","starwars %>% "
+"0","  mutate(skywalker = str_detect(name, ""Skywalker""), # R2-D2"
+"0","         .after = name)"

@@ -1,0 +1,7 @@
+"0","  # select(last_col())"
+"0",""
+"0","# Exemple 2"
+"0","starwars %>% "
+"0","  mutate(imc = mass/(height/100)^2,"
+"0","         un = 1,"
+"0","         .before = name) # plusieurs"

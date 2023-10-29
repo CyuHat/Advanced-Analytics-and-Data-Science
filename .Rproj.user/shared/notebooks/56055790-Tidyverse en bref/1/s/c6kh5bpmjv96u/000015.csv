@@ -1,0 +1,8 @@
+"0",""
+"0","# Exemple 2"
+"0","starwars %>% "
+"0","  mutate(skin_color = fct_lump(skin_color,"
+"0","                               prop = 0.15,"
+"0","                               other_level = ""Autre"")) %>%"
+"0","  ggplot(aes(skin_color)) +"
+"0","  geom_bar()"

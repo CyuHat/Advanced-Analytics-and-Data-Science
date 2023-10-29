@@ -1,0 +1,677 @@
+---
+title: "Base 1: Objets, opérateurs et mathématiques"
+author: Vestin Cyuzuzo Hategekimana
+date: '2021-01-26'
+slug: objets op-retour-et-math-matrices
+catégories:
+  - R
+tags:
+  - r
+  - statistiques
+subtiles: ''
+summary: 'Dans ce tutoriel nous voyons des éléments de base dans R.'
+authors: []
+lastmod: '2022-04-08T22:31:17+02:00'
+featured: no
+image:
+  caption: ''
+  focal _point: ''
+  preview_only: no
+projects: []
+---
+
+
+
+<p>N’oubliez pas de nettoyer votre “Global Environnment” avec la fonction <code>rm(list=ls())</code>, pour éviter d’être encombré de variable. N’hésitez surtout pas à les supprimer si ce sont des exemples donnés dans des tutos, vous pouvez les recréer facilement. R-Studio n’est pas une cave, un peu d’ordre, ça aide en statistique. Nous vous recommandons de tester vous-même les codes en les recopiant dans la console, mais vous pouvez simplement les lancer depuis la fenêtre de script.</p>
+<p><strong>Type de données/objets</strong></p>
+<p>Dans R vous pouvez inscrire des nombres par exemple:</p>
+<pre class="r"><code>2</code></pre>
+<pre><code>## [1] 2</code></pre>
+<pre class="r"><code>34</code></pre>
+<pre><code>## [1] 34</code></pre>
+<pre class="r"><code>920</code></pre>
+<pre><code>## [1] 920</code></pre>
+<pre class="r"><code>10000000000000 </code></pre>
+<pre><code>## [1] 1e+13</code></pre>
+<p>Vous pouvez également écrire des commentaires en utilisant le signe # devant les mots/phrases:</p>
+<pre class="r"><code># Ceci est un commentaire</code></pre>
+<p>On utilise ça dans les scripts pour expliquer les lignes de codes, mais pas vraiment dans des lignes de commande dans la console. Vous pouvez aussi créer des mots ou chaînes de caractères en les inscrivant entre guillemets:</p>
+<pre class="r"><code>&quot;chocolat&quot;</code></pre>
+<pre><code>## [1] &quot;chocolat&quot;</code></pre>
+<pre class="r"><code>&quot;pizza&quot;</code></pre>
+<pre><code>## [1] &quot;pizza&quot;</code></pre>
+<pre class="r"><code>&quot;Purée de pomme de terre&quot; </code></pre>
+<pre><code>## [1] &quot;Purée de pomme de terre&quot;</code></pre>
+<p>Comme vous pouvez le voir, il est possible d’avoir des accents, des majuscules ou des espaces (caractères spéciaux). Généralement, on évitera un maximum d’utiliser des caractères spéciaux. Remarquez les différences de coloration du code.</p>
+<p><strong>Les variables</strong></p>
+<p>Naturellement, R est un semi-langage de programmation, il peut donc gérer des variables. Pour stocker une valeur dans une variable, il suffit d’indiquer le nom de la variable ainsi que la valeur que l’on souhaite lui attribuer et de mettre entre les deux (=) (&lt;-) ou (-&gt;):</p>
+<pre class="r"><code>a&lt;-12 
+b=&quot;magicien&quot;
+32+19-&gt; c </code></pre>
+<p>Lorsque l’on utilise la flèche, il faut veiller à ce qu’elle soit dirigée de la valeur vers la variable. Pour afficher la valeur contenue dans une variable, il suffit d’inscrire le nom de la variable:</p>
+<pre class="r"><code>a</code></pre>
+<pre><code>## [1] 12</code></pre>
+<pre class="r"><code>b </code></pre>
+<pre><code>## [1] &quot;magicien&quot;</code></pre>
+<pre class="r"><code>c </code></pre>
+<pre><code>## [1] 51</code></pre>
+<p>On peut également faire des calcules avec les variables ou toute autre sorte de manipulation :</p>
+<pre class="r"><code>a-c </code></pre>
+<pre><code>## [1] -39</code></pre>
+<pre class="r"><code>d=c/a </code></pre>
+<p>Remarque: pour utiliser plusieurs commandes sur la même ligne, il suffit d’utiliser le signe (;):</p>
+<pre class="r"><code>a</code></pre>
+<pre><code>## [1] 12</code></pre>
+<pre class="r"><code>b</code></pre>
+<pre><code>## [1] &quot;magicien&quot;</code></pre>
+<pre class="r"><code>c</code></pre>
+<pre><code>## [1] 51</code></pre>
+<pre class="r"><code>d</code></pre>
+<pre><code>## [1] 4.25</code></pre>
+<p>Naturellement, il n’est pas possible de faire des calcules avec les chaînes de caractères :</p>
+<pre class="r"><code># b+c</code></pre>
+<p>Ces variables sont des objets et apparaissent dans le cadran en haut à droite de Rstudio (référence au tuto 1), vous pouvez en voir le contenu. Lorsqu’on attribue une nouvelle valeur à une variable, la précédente valeur est effacée. C’est pour cette raison qu’il faut faire attention à la gestion des variables.</p>
+<pre class="r"><code>a</code></pre>
+<pre><code>## [1] 12</code></pre>
+<pre class="r"><code>a = 52344
+a</code></pre>
+<pre><code>## [1] 52344</code></pre>
+<p><strong>Les vecteurs</strong></p>
+<p>Le prochain type d’objet abordé est le vecteur. Le vecteur est une série de valeur contenue dans le même objet. Pour le créer il faut utiliser la fonction de concaténation abrégée c() en séparant chaque valeur par une virgule dans R:</p>
+<pre class="r"><code>v0&lt;-c(1,2,3,4,5)
+v1&lt;-c(3,54,1,8,10)
+v2&lt;-c(&quot;lait&quot;,&quot;manioc&quot;,&quot;sésame&quot;)
+v3&lt;-c(&quot;ananas&quot;,72,1,&quot;nairobi&quot;,3)
+v0;v1;v2;v3</code></pre>
+<pre><code>## [1] 1 2 3 4 5</code></pre>
+<pre><code>## [1]  3 54  1  8 10</code></pre>
+<pre><code>## [1] &quot;lait&quot;   &quot;manioc&quot; &quot;sésame&quot;</code></pre>
+<pre><code>## [1] &quot;ananas&quot;  &quot;72&quot;      &quot;1&quot;       &quot;nairobi&quot; &quot;3&quot;</code></pre>
+<p>Ainsi, nous avons créé des vecteurs numériques (v1) et à chaîne de caractères (v2 et v3). En effet, l’objet devient automatiquement une chaîne de caractères si au moins l’un de ses éléments est un caractère. Pour tester cela, nous pouvons utiliser la fonction class():</p>
+<pre class="r"><code>class(v0)</code></pre>
+<pre><code>## [1] &quot;numeric&quot;</code></pre>
+<pre class="r"><code>class(v1)</code></pre>
+<pre><code>## [1] &quot;numeric&quot;</code></pre>
+<pre class="r"><code>class(v2)</code></pre>
+<pre><code>## [1] &quot;character&quot;</code></pre>
+<pre class="r"><code>class(v3)</code></pre>
+<pre><code>## [1] &quot;character&quot;</code></pre>
+<p>Ici, “numeric” signifie que c’est un objet numérique et “character” une chaîne de caractère…(Et là, vous dites: “merci Einstein!”, même s’il n’était pas traducteur). Vous pouvez tester cette fonction sur les autres objets créés (a,b,c et d).</p>
+<pre class="r"><code>class(a)</code></pre>
+<pre><code>## [1] &quot;numeric&quot;</code></pre>
+<pre class="r"><code>class(b)</code></pre>
+<pre><code>## [1] &quot;character&quot;</code></pre>
+<p>Comme pour les variables classiques, vous pouvez faire diverses manipulations:</p>
+<pre class="r"><code>v1*3</code></pre>
+<pre><code>## [1]   9 162   3  24  30</code></pre>
+<pre class="r"><code>v0-5</code></pre>
+<pre><code>## [1] -4 -3 -2 -1  0</code></pre>
+<p>Pour les calculs entre vecteurs, il y a une règle supplémentaire: la longueur. Créons un vecteur de longueur 2 et un autre de longueur 4 :</p>
+<pre class="r"><code>v4&lt;-c(1,0)
+v5&lt;-c(1,1,1,1)</code></pre>
+<p>Lorsque les deux vecteurs ont des diviseurs communs (ici 2 pour v4 avec v0 ou v1), les calcules fonctionnent:</p>
+<pre class="r"><code>v4+v0</code></pre>
+<pre><code>## Warning in v4 + v0: la taille d&#39;un objet plus long n&#39;est pas multiple de la
+## taille d&#39;un objet plus court</code></pre>
+<pre><code>## [1] 2 2 4 4 6</code></pre>
+<pre class="r"><code>v4*v0</code></pre>
+<pre><code>## Warning in v4 * v0: la taille d&#39;un objet plus long n&#39;est pas multiple de la
+## taille d&#39;un objet plus court</code></pre>
+<pre><code>## [1] 1 0 3 0 5</code></pre>
+<pre class="r"><code>v4-v1</code></pre>
+<pre><code>## Warning in v4 - v1: la taille d&#39;un objet plus long n&#39;est pas multiple de la
+## taille d&#39;un objet plus court</code></pre>
+<pre><code>## [1]  -2 -54   0  -8  -9</code></pre>
+<pre class="r"><code>v4/v1</code></pre>
+<pre><code>## Warning in v4/v1: la taille d&#39;un objet plus long n&#39;est pas multiple de la taille
+## d&#39;un objet plus court</code></pre>
+<pre><code>## [1] 0.3333333 0.0000000 1.0000000 0.0000000 0.1000000</code></pre>
+<p>Mais ça ne fonctionne pas lorsqu’il n’y a pas de diviseur commun:</p>
+<pre class="r"><code>v5+v0</code></pre>
+<pre><code>## Warning in v5 + v0: la taille d&#39;un objet plus long n&#39;est pas multiple de la
+## taille d&#39;un objet plus court</code></pre>
+<pre><code>## [1] 2 3 4 5 6</code></pre>
+<pre class="r"><code>v5-v1</code></pre>
+<pre><code>## Warning in v5 - v1: la taille d&#39;un objet plus long n&#39;est pas multiple de la
+## taille d&#39;un objet plus court</code></pre>
+<pre><code>## [1]  -2 -53   0  -7  -9</code></pre>
+<p>Pour contrôler la longueur d’un vecteur, il y a deux moyens: le plus simple, c’est de regarder la fenêtre en haut à droite les informations de la variable. Ou d’utiliser la fonction lenght():</p>
+<pre class="r"><code>length(v5)</code></pre>
+<pre><code>## [1] 4</code></pre>
+<pre class="r"><code>length(v0)</code></pre>
+<pre><code>## [1] 5</code></pre>
+<pre class="r"><code>length(v4)</code></pre>
+<pre><code>## [1] 2</code></pre>
+<p>Il existe plusieurs autres fonctions pour les vecteurs: Longueur length(), Somme sum(), Minimum min(), Maximum max(), Portée range(), Moyenne mean(), Médiane median(), Écart type sd(), Variance var(), Résume summary().</p>
+<pre class="r"><code>sum(v4)</code></pre>
+<pre><code>## [1] 1</code></pre>
+<pre class="r"><code>min(v0)</code></pre>
+<pre><code>## [1] 1</code></pre>
+<pre class="r"><code>max(v1)</code></pre>
+<pre><code>## [1] 54</code></pre>
+<pre class="r"><code>median(v5)</code></pre>
+<pre><code>## [1] 1</code></pre>
+<pre class="r"><code>sd(0)</code></pre>
+<pre><code>## [1] NA</code></pre>
+<pre class="r"><code>var(1)</code></pre>
+<pre><code>## [1] NA</code></pre>
+<pre class="r"><code>sum(5)</code></pre>
+<pre><code>## [1] 5</code></pre>
+<p><strong>Gestion des objets</strong></p>
+<p>Pour gérer les objets vous pouvez utiliser ces 2 fonctions importantes: ls() et remove() ou rm() en abrégé. ls(), affichent tous les objets créés (laisser tel quel). remove() ou rm() supprime les objets sélectionnés. Exemple (Attention avant de lancer l’exemple assurer vous d’avoir enregistré tous les objets importants, puisque la dernière fonction les supprime tous):</p>
+<pre class="r"><code># Faire disparaitre le vecteur v0
+rm(v0) 
+# Supprime tous les objets créés
+remove(list=ls())
+# ou rm(list=ls())</code></pre>
+<p><strong>Vecteurs(suite)</strong></p>
+<p>Maintenant tous les objets de votre environnement sont effacés, lorsque nous ferons des exemples plus tard, nous créerons les variables justes avant pour vous permettre d’utiliser les exemples indépendamment des autres tutos, c’est-à-dire sans avoir besoin de refaire tout le tuto depuis le début. Il existe d’autres moyens de créer des vecteurs. Nous pouvons par exemple les nommer directement:</p>
+<pre class="r"><code>v0&lt;-c(point=1, lunette=6, tableau=19)</code></pre>
+<p>Ou le faire après coup (le vecteur des noms doit avoir la même taille) :</p>
+<pre class="r"><code>v0&lt;-c(27,1,9)
+names(v0)&lt;-c(&quot;métal&quot;,&quot;soleil&quot;,&quot;chou&quot;)</code></pre>
+<p>Si vous souhaitez générer une série de nombre par pas de 1 vous pouvez utiliser le signe (:) entre les deux nombres servant de borne:</p>
+<pre class="r"><code>v0&lt;-1:10
+v1&lt;-5:-2
+v2&lt;-c(4:1,5,1,6)
+v3&lt;-c(v0,v1)
+v4&lt;-c(3,v2,-2:5,0)
+v0;v1;v2;v3;v4</code></pre>
+<pre><code>##  [1]  1  2  3  4  5  6  7  8  9 10</code></pre>
+<pre><code>## [1]  5  4  3  2  1  0 -1 -2</code></pre>
+<pre><code>## [1] 4 3 2 1 5 1 6</code></pre>
+<pre><code>##  [1]  1  2  3  4  5  6  7  8  9 10  5  4  3  2  1  0 -1 -2</code></pre>
+<pre><code>##  [1]  3  4  3  2  1  5  1  6 -2 -1  0  1  2  3  4  5  0</code></pre>
+<p>Remarquez que nous pouvons le faire dans les deux sens (ascendant/descendant). Pour réaliser des séries plus personnalisées vous pouvez utiliser la fonction seq() en indiquant dans un premier temps le nombre de départ, puis le nombre d’arrivée, finalement indiquez la taille du saut après avoir écrit “by=”:</p>
+<pre class="r"><code>seq(3,11,by=4)</code></pre>
+<pre><code>## [1]  3  7 11</code></pre>
+<pre class="r"><code>seq(23,9,by=-5)</code></pre>
+<pre><code>## [1] 23 18 13</code></pre>
+<pre class="r"><code>v0&lt;-seq(8,13,by=0.5)
+v0</code></pre>
+<pre><code>##  [1]  8.0  8.5  9.0  9.5 10.0 10.5 11.0 11.5 12.0 12.5 13.0</code></pre>
+<p>Remarques: Premièrement, si les sauts que vous souhaitez faire ne correspondent pas exactement à l’écart entre les deux nombres, R va arrêter le compte juste avant de dépasser la valeur limite. Deuxièmement, si vous souhaitez faire une série descendante, il faut indiquer un nombre négatif. Finalement, la fonction utilisée ici est un abrégé, si nous voulions faire du zèle, nous devrions utiliser la fonction complète:</p>
+<pre class="r"><code>seq(from=1,to=10,by=1)</code></pre>
+<pre><code>##  [1]  1  2  3  4  5  6  7  8  9 10</code></pre>
+<p>Nous expliquerons dans un autre tuto pourquoi il existe plusieurs versions et dans quel cas il est possible d’utiliser la version raccourcie. Dans ce qui suit, nous n’imputerons pas forcément les valeurs à des variables pour les exemples, mais sachez que c’est possible de le faire pour tous les cas qui vont suivre. Nous pouvons également répéter un nombre ou une série de nombres pour créer nos vecteurs:</p>
+<pre class="r"><code>v0&lt;-0:1
+rep(5, time=10)</code></pre>
+<pre><code>##  [1] 5 5 5 5 5 5 5 5 5 5</code></pre>
+<pre class="r"><code>rep(c(3,2,1), time=3)</code></pre>
+<pre><code>## [1] 3 2 1 3 2 1 3 2 1</code></pre>
+<pre class="r"><code>rep(4:1,time=2)</code></pre>
+<pre><code>## [1] 4 3 2 1 4 3 2 1</code></pre>
+<pre class="r"><code>rep(v0, time=5)</code></pre>
+<pre><code>##  [1] 0 1 0 1 0 1 0 1 0 1</code></pre>
+<p>Mais il est également possible de répéter plusieurs fois chaque élément d’un vecteur pour l’agrandir:</p>
+<pre class="r"><code>v0&lt;-0:1
+rep(c(1,2,3), each=2)</code></pre>
+<pre><code>## [1] 1 1 2 2 3 3</code></pre>
+<pre class="r"><code>rep(v0, each=5)</code></pre>
+<pre><code>##  [1] 0 0 0 0 0 1 1 1 1 1</code></pre>
+<p><strong>Sélection</strong>
+Il est possible de manipuler qu’une partie des vecteurs:</p>
+<pre class="r"><code>v0&lt;-1:10
+v1&lt;-c(1:4,5,1,3,6,8,1)
+v0[1]</code></pre>
+<pre><code>## [1] 1</code></pre>
+<pre class="r"><code>v0[7]</code></pre>
+<pre><code>## [1] 7</code></pre>
+<pre class="r"><code>v0[2:5]</code></pre>
+<pre><code>## [1] 2 3 4 5</code></pre>
+<pre class="r"><code>v0[c(1,3,8)]</code></pre>
+<pre><code>## [1] 1 3 8</code></pre>
+<pre class="r"><code>v0[2]+v1[3]</code></pre>
+<pre><code>## [1] 5</code></pre>
+<pre class="r"><code>v0[3:9]*v1[1:7]</code></pre>
+<pre><code>## [1]  3  8 15 24 35  8 27</code></pre>
+<p>Gardez en mémoire le fait que cela sera très utile pour la manipulation de matrices et de structures de données, mais qu’il existe un package qui gère mieux ce genre de situation (dyplr de tidyverse)</p>
+<p><strong>Opérateurs</strong>
+Avant d’entamer les opérateurs, nous allons commencer par un petit exemple. Nous allons voir ce qu’il se passe lorsque nous utilisons les signes &lt; et &gt;:</p>
+<pre class="r"><code>2&gt;3</code></pre>
+<pre><code>## [1] FALSE</code></pre>
+<pre class="r"><code>1&lt;100</code></pre>
+<pre><code>## [1] TRUE</code></pre>
+<p>Suivant le code inscrit, R nous renvoie soit TRUE (vrai) soit FALSE (Faux). En guise d’explication simple, il nous indique si l’expression ou la condition que nous lui avons proposée est vraie ou fausse. Dans notre exemple 2 n’est pas plus grand que 3 (donc faux) et 1 est bien inférieurs à 100 (donc vrai). Cela marche aussi pour les vecteurs:</p>
+<pre class="r"><code>v0&lt;-1:10
+v0</code></pre>
+<pre><code>##  [1]  1  2  3  4  5  6  7  8  9 10</code></pre>
+<pre class="r"><code>v0&gt;5</code></pre>
+<pre><code>##  [1] FALSE FALSE FALSE FALSE FALSE  TRUE  TRUE  TRUE  TRUE  TRUE</code></pre>
+<p>Remarque: Jusqu’au cinquième nombre qui correspond à 5 toutes les valeurs renvoyées par l’expression précédente sont “FALSE”, même le 5, puisque nous avons demandé à R si le nombre est “strictement égal à 5” or les nombres allant de 1 à 5 sont inférieurs ou égaux à 5 (ici le 5). Il existe plusieurs autres opérateurs:</p>
+<p><strong>Arithmétique</strong></p>
+<table>
+<thead>
+<tr class="header">
+<th>Type</th>
+<th>Signe</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Addition</td>
+<td>+</td>
+</tr>
+<tr class="even">
+<td>Soustraction</td>
+<td>–</td>
+</tr>
+<tr class="odd">
+<td>Multiplication</td>
+<td>*</td>
+</tr>
+<tr class="even">
+<td>Division</td>
+<td>/</td>
+</tr>
+<tr class="odd">
+<td>Exposant</td>
+<td>^</td>
+</tr>
+<tr class="even">
+<td>Modulo</td>
+<td>%%</td>
+</tr>
+<tr class="odd">
+<td>Division de nombre entier</td>
+<td>%/%</td>
+</tr>
+</tbody>
+</table>
+<p><em>Remarque: le modulo est le reste d’une division</em></p>
+<p><strong>Relationnel</strong></p>
+<table>
+<thead>
+<tr class="header">
+<th>Type</th>
+<th>Signe</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Moins/Plus que</td>
+<td>&lt; &gt;</td>
+</tr>
+<tr class="even">
+<td>Moins/Plus ou égale à</td>
+<td>&lt;= &gt;=</td>
+</tr>
+<tr class="odd">
+<td>Égal à</td>
+<td>==</td>
+</tr>
+<tr class="even">
+<td>Pas égal</td>
+<td>!=</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Logique</strong></p>
+<table>
+<thead>
+<tr class="header">
+<th>Type</th>
+<th>Signe</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>N’est pas</td>
+<td>!</td>
+</tr>
+<tr class="even">
+<td>Et (par élément)</td>
+<td>&amp;</td>
+</tr>
+<tr class="odd">
+<td>Et (simple)</td>
+<td>&amp;&amp;</td>
+</tr>
+<tr class="even">
+<td>Ou (par élément)</td>
+<td>”</td>
+</tr>
+<tr class="odd">
+<td>Ou (simple)</td>
+<td>”</td>
+</tr>
+</tbody>
+</table>
+<p><em>Remarque: Les signes “|” (ou par élément) et “||” (ou simple) n’apparaissent pas dans le tableau à cause de leur particularité, mais ce sont bien ces signes.</em></p>
+<p>Pour la dernière série d’opérateurs, voici quelques exemples d’utilisation:</p>
+<pre class="r"><code># Division Euclidienne avec résultat et reste:
+10%/%6 ; 10%%6</code></pre>
+<pre><code>## [1] 1</code></pre>
+<pre><code>## [1] 4</code></pre>
+<pre class="r"><code># Est-ce que 10 et 5 sont tous les deux supérieurs à 3 ?
+10&amp;5&gt;3</code></pre>
+<pre><code>## [1] TRUE</code></pre>
+<pre class="r"><code># Est-ce que 10 et 1 sont tous les deux supérieurs à 3 ?
+10&amp;1&gt;3</code></pre>
+<pre><code>## [1] FALSE</code></pre>
+<pre class="r"><code># Est-ce que 10 ou 1 est supérieur à 3 ?
+10|1&gt;3 </code></pre>
+<pre><code>## [1] TRUE</code></pre>
+<p>Ce tuto est terminé!</p>
+<p>Gardez en mémoire le fait que cela sera très utile pour la manipulation de matrices et de structures de données, mais qu’il existe un package qui gère mieux ce genre de situation (dyplr de tidyverse)</p>
+<div id="opérateurs" class="section level2">
+<h2>Opérateurs</h2>
+<p>Avant d’entamer les opérateurs, nous allons commencer par un petit exemple. Nous allons voir ce qu’il se passe lorsque nous utilisons les signes &lt; et &gt;:</p>
+<pre class="r"><code>2&gt;3</code></pre>
+<pre><code>## [1] FALSE</code></pre>
+<pre class="r"><code>1&lt;100</code></pre>
+<pre><code>## [1] TRUE</code></pre>
+<p>Suivant le code inscrit, R nous renvoie soit TRUE (vrai) soit FALSE (Faux). En guise d’explication simple, il nous indique si l’expression ou la condition que nous lui avons proposée est vraie ou fausse. Dans notre exemple 2 n’est pas plus grand que 3 (donc faux) et 1 est bien inférieurs à 100 (donc vrai). Cela marche aussi pour les vecteurs:</p>
+<pre class="r"><code>v0 &lt;- 1:10
+v0</code></pre>
+<pre><code>##  [1]  1  2  3  4  5  6  7  8  9 10</code></pre>
+<pre class="r"><code>v0&gt;5</code></pre>
+<pre><code>##  [1] FALSE FALSE FALSE FALSE FALSE  TRUE  TRUE  TRUE  TRUE  TRUE</code></pre>
+<p>Remarque: Jusqu’au cinquième nombre qui correspond à 5 toutes les valeurs renvoyées par l’expression précédente sont “FALSE”, même le 5, puisque nous avons demandé à R si le nombre est “strictement égal à 5” or les nombres allant de 1 à 5 sont inférieurs ou égaux à 5 (ici le 5). Il existe plusieurs autres opérateurs:</p>
+</div>
+<div id="booléens" class="section level2">
+<h2>Booléens</h2>
+<p>Les booléens sont un type d’objet qui ne prend que deux types de valeurs vrai “TRUE” ou faux “FALSE”. Et le tout s’écrit en majuscule:</p>
+<pre class="r"><code>TRUE</code></pre>
+<pre><code>## [1] TRUE</code></pre>
+<pre class="r"><code>FALSE</code></pre>
+<pre><code>## [1] FALSE</code></pre>
+<p>Les deux valeurs peuvent être considérées comme des chiffres, là où TRUE vaut 1 et FALSE vaut 0.</p>
+<pre class="r"><code># Fonction pour transformer un élément en nombre
+as.numeric(TRUE)</code></pre>
+<pre><code>## [1] 1</code></pre>
+<pre class="r"><code># Fonction pour transformer un élément en nombre
+as.numeric(FALSE)</code></pre>
+<pre><code>## [1] 0</code></pre>
+<pre class="r"><code>TRUE + TRUE</code></pre>
+<pre><code>## [1] 2</code></pre>
+<pre class="r"><code>FALSE - 10</code></pre>
+<pre><code>## [1] -10</code></pre>
+<p>Les booléens à eux seuls ne servent pas à grand-chose, mais utilisés dans des conditions logiques (pas traité dans ce tutoriel) ou dans des sélections, ils sont d’une grande efficacité. Voilà un exemple qui est loin de démontrer leur efficacité, mais simplement pour comprendre comment ils fonctionnent dans la sélection:</p>
+<pre class="r"><code>v2 &lt;- c(1,2)
+v2</code></pre>
+<pre><code>## [1] 1 2</code></pre>
+<pre class="r"><code>v2[c(TRUE,FALSE)]</code></pre>
+<pre><code>## [1] 1</code></pre>
+<pre class="r"><code>v2[c(FALSE,TRUE)]</code></pre>
+<pre><code>## [1] 2</code></pre>
+<pre class="r"><code>v2[c(FALSE,FALSE)]</code></pre>
+<pre><code>## numeric(0)</code></pre>
+<pre class="r"><code>v2[c(TRUE,TRUE)]</code></pre>
+<pre><code>## [1] 1 2</code></pre>
+<p>Nous allons voir plus tard comment faire des sélections avec des opérations logiques.</p>
+</div>
+<div id="arithmétique" class="section level2">
+<h2>Arithmétique</h2>
+<table>
+<thead>
+<tr class="header">
+<th>Type</th>
+<th>Signe</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Addition</td>
+<td>+</td>
+</tr>
+<tr class="even">
+<td>Soustraction</td>
+<td>–</td>
+</tr>
+<tr class="odd">
+<td>Multiplication</td>
+<td>*</td>
+</tr>
+<tr class="even">
+<td>Division</td>
+<td>/</td>
+</tr>
+<tr class="odd">
+<td>Exposant</td>
+<td>^</td>
+</tr>
+<tr class="even">
+<td>Modulo</td>
+<td>%%</td>
+</tr>
+<tr class="odd">
+<td>Division de nombre entier</td>
+<td>%/%</td>
+</tr>
+</tbody>
+</table>
+<p><em>Remarque: le modulo est le reste d’une division</em></p>
+</div>
+<div id="relationnel" class="section level2">
+<h2>Relationnel</h2>
+<table>
+<thead>
+<tr class="header">
+<th>Type</th>
+<th>Signe</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Moins/Plus que</td>
+<td>&lt; &gt;</td>
+</tr>
+<tr class="even">
+<td>Moins/Plus ou égale à</td>
+<td>&lt;= &gt;=</td>
+</tr>
+<tr class="odd">
+<td>Égal à</td>
+<td>==</td>
+</tr>
+<tr class="even">
+<td>Pas égal</td>
+<td>!=</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div id="logique" class="section level2">
+<h2>Logique</h2>
+<table>
+<thead>
+<tr class="header">
+<th>Type</th>
+<th>Signe</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>N’est pas</td>
+<td>!</td>
+</tr>
+<tr class="even">
+<td>Et (par élément)</td>
+<td>&amp;</td>
+</tr>
+<tr class="odd">
+<td>Et (simple)</td>
+<td>&amp;&amp;</td>
+</tr>
+<tr class="even">
+<td>Ou (par élément)</td>
+<td>”</td>
+</tr>
+<tr class="odd">
+<td>Ou (simple)</td>
+<td>”</td>
+</tr>
+</tbody>
+</table>
+<p><em>Remarque: Les signes “|” (ou par élément) et “||” (ou simple) n’apparaissent pas dans le tableau à cause de leur particularité, mais ce sont bien ces signes.</em></p>
+<p>Pour la dernière série d’opérateurs, voici quelques exemples d’utilisation:</p>
+<pre class="r"><code># Division Euclidienne avec résultat et reste:
+10%/%6 ; 10%%6</code></pre>
+<pre><code>## [1] 1</code></pre>
+<pre><code>## [1] 4</code></pre>
+<pre class="r"><code># Est-ce que 10 et 5 sont tous les deux supérieurs à 3 ?
+10&amp;5&gt;3</code></pre>
+<pre><code>## [1] TRUE</code></pre>
+<pre class="r"><code># Est-ce que 10 et 1 sont tous les deux supérieurs à 3 ?
+10&amp;1&gt;3</code></pre>
+<pre><code>## [1] FALSE</code></pre>
+<pre class="r"><code># Est-ce que 10 ou 1 est supérieur à 3 ?
+10|1&gt;3 </code></pre>
+<pre><code>## [1] TRUE</code></pre>
+<p>Nous voyons que les opérateurs logiques renvoient des “TRUE” et “FALSE”.</p>
+</div>
+<div id="sélection-logique" class="section level2">
+<h2>Sélection logique</h2>
+<p>Maintenant, nous allons combiner les opérateurs logiques pour faire des sélections dans les vecteurs:</p>
+<pre class="r"><code>v3 &lt;- 1:10
+v3</code></pre>
+<pre><code>##  [1]  1  2  3  4  5  6  7  8  9 10</code></pre>
+<pre class="r"><code>v4 &lt;- c(&quot;a&quot;,&quot;b&quot;,&quot;c&quot;,&quot;d&quot;,&quot;e&quot;,&quot;f&quot;,&quot;g&quot;,&quot;h&quot;,&quot;i&quot;,&quot;j&quot;)
+v4</code></pre>
+<pre><code>##  [1] &quot;a&quot; &quot;b&quot; &quot;c&quot; &quot;d&quot; &quot;e&quot; &quot;f&quot; &quot;g&quot; &quot;h&quot; &quot;i&quot; &quot;j&quot;</code></pre>
+<pre class="r"><code># Renvoie des booléens (TRUE si la condition logique est respecté FALSE sinon)
+v3&gt;=5</code></pre>
+<pre><code>##  [1] FALSE FALSE FALSE FALSE  TRUE  TRUE  TRUE  TRUE  TRUE  TRUE</code></pre>
+<pre class="r"><code># Ces booléens peuvent être utilisés pour faire des sélections
+v3[v3&gt;=5]</code></pre>
+<pre><code>## [1]  5  6  7  8  9 10</code></pre>
+<pre class="r"><code># Même dans une autre liste de même taille
+v4[v3&gt;=5]</code></pre>
+<pre><code>## [1] &quot;e&quot; &quot;f&quot; &quot;g&quot; &quot;h&quot; &quot;i&quot; &quot;j&quot;</code></pre>
+<pre class="r"><code># Avec des commandes plus complexes
+v4[v3&gt;=5 | v4==&quot;b&quot;]</code></pre>
+<pre><code>## [1] &quot;b&quot; &quot;e&quot; &quot;f&quot; &quot;g&quot; &quot;h&quot; &quot;i&quot; &quot;j&quot;</code></pre>
+<p>Ici nous présentons deux éléments utiles pour la sélection/modification. Premièrement nous présentons la fonction <em>%in%</em> qui permet de contrôler si un élément est présent dans un ensemble d’éléments présentés. Il permet de demander “Est-ce que tel élément est égal à l’un des éléments de la liste suivante”. Voici une démonstration:</p>
+<pre class="r"><code>v4 &lt;- 1:4
+v3</code></pre>
+<pre><code>##  [1]  1  2  3  4  5  6  7  8  9 10</code></pre>
+<pre class="r"><code>v4</code></pre>
+<pre><code>## [1] 1 2 3 4</code></pre>
+<pre class="r"><code>5 %in% v3</code></pre>
+<pre><code>## [1] TRUE</code></pre>
+<pre class="r"><code>5 %in% v4</code></pre>
+<pre><code>## [1] FALSE</code></pre>
+<pre class="r"><code># On peut même le faire entre les différents éléments de deux vecteurs
+v3 %in% v4</code></pre>
+<pre><code>##  [1]  TRUE  TRUE  TRUE  TRUE FALSE FALSE FALSE FALSE FALSE FALSE</code></pre>
+<p>Deuxièmement, les vecteurs de booléens peuvent servir à modifier d’autres vecteurs et particulièrement grâce à la fonction <em>ifelse()</em> qui permet de modifier un vecteur différemment en fonction de si un élément logique est respecte. Le premier paramètre de la fonction c’est l’opération logique, le deuxième, c’est le résultat à retourner si c’est vrai et le troisième c’est le résultat à retourner si c’est faux.</p>
+<pre class="r"><code>v3</code></pre>
+<pre><code>##  [1]  1  2  3  4  5  6  7  8  9 10</code></pre>
+<pre class="r"><code>v3==10</code></pre>
+<pre><code>##  [1] FALSE FALSE FALSE FALSE FALSE FALSE FALSE FALSE FALSE  TRUE</code></pre>
+<pre class="r"><code>ifelse(v3==10, &quot;vrai&quot;, &quot;faux&quot;)</code></pre>
+<pre><code>##  [1] &quot;faux&quot; &quot;faux&quot; &quot;faux&quot; &quot;faux&quot; &quot;faux&quot; &quot;faux&quot; &quot;faux&quot; &quot;faux&quot; &quot;faux&quot; &quot;vrai&quot;</code></pre>
+<pre class="r"><code>ifelse(v3==10, &quot;égal à 10&quot;, &quot;pas égal à 10&quot;)</code></pre>
+<pre><code>##  [1] &quot;pas égal à 10&quot; &quot;pas égal à 10&quot; &quot;pas égal à 10&quot; &quot;pas égal à 10&quot;
+##  [5] &quot;pas égal à 10&quot; &quot;pas égal à 10&quot; &quot;pas égal à 10&quot; &quot;pas égal à 10&quot;
+##  [9] &quot;pas égal à 10&quot; &quot;égal à 10&quot;</code></pre>
+<pre class="r"><code>ifelse(v3==10, v3*10, v3)</code></pre>
+<pre><code>##  [1]   1   2   3   4   5   6   7   8   9 100</code></pre>
+<pre class="r"><code>ifelse(v3&lt;10, v3*10, v3/2)</code></pre>
+<pre><code>##  [1] 10 20 30 40 50 60 70 80 90  5</code></pre>
+<p>Nous voyons que ça laisse beaucoup de possibilités.</p>
+</div>
+<div id="listes" class="section level2">
+<h2>Listes</h2>
+<p>Dans cette partie, nous allons parler des listes, qui ne sont pas la même chose que les vecteurs. Même si elles sont similaires dans le fait qu’elles peuvent contenir une série d’éléments dans un ordre précis, elles diffèrent sur ces points:</p>
+<ul>
+<li><p>Une liste peut contenir n’importe quels types d’objets (chaîne de caractères, nombre, booléen, vecteurs, data frame, etc.) et peut en avoir différents types sans que ça pose un problème.</p></li>
+<li><p>Une liste peut contenir d’autres listes et il est possible d’avoir un contenu en tiroirs.</p></li>
+<li><p>Il est possible d’appeler un élément d’une liste par un nom qu’on lui a donné au préalable.</p></li>
+<li><p>Les éléments d’une liste ne sont pas directement manipulables, ni directement accessibles contrairement aux vecteurs. Il faut les extraire d’une manière spéciale.</p></li>
+<li><p>Il n’est pas possible de faire directement des opérations sur une liste sans passer par une itération (boucle) ou du mapping (apply, map).</p></li>
+</ul>
+<p>Voyons tout cela de plus près. Premièrement, nous pouvons créer une liste en utilisant la fonction liste:</p>
+<pre class="r"><code>l1 &lt;- list(1,4,&quot;carotte&quot;,TRUE)
+l2 &lt;- list(v1, v0, &quot;Ceci est une phrase&quot;, l1)
+l1</code></pre>
+<pre><code>## [[1]]
+## [1] 1
+## 
+## [[2]]
+## [1] 4
+## 
+## [[3]]
+## [1] &quot;carotte&quot;
+## 
+## [[4]]
+## [1] TRUE</code></pre>
+<pre class="r"><code>l2</code></pre>
+<pre><code>## [[1]]
+##  [1] 1 2 3 4 5 1 3 6 8 1
+## 
+## [[2]]
+##  [1]  1  2  3  4  5  6  7  8  9 10
+## 
+## [[3]]
+## [1] &quot;Ceci est une phrase&quot;
+## 
+## [[4]]
+## [[4]][[1]]
+## [1] 1
+## 
+## [[4]][[2]]
+## [1] 4
+## 
+## [[4]][[3]]
+## [1] &quot;carotte&quot;
+## 
+## [[4]][[4]]
+## [1] TRUE</code></pre>
+<p>Nous pouvons sélectionner les éléments d’une liste, mais il faut une sélection particulière avec “[” et ”]”, sinon nous n’arrivons pas réellement à l’objet.</p>
+<pre class="r"><code># ça ne suffit pas pour manipuler l&#39;élément séléctionné
+l1[1]</code></pre>
+<pre><code>## [[1]]
+## [1] 1</code></pre>
+<pre class="r"><code>l1[[1]]</code></pre>
+<pre><code>## [1] 1</code></pre>
+<pre class="r"><code>class(l1)</code></pre>
+<pre><code>## [1] &quot;list&quot;</code></pre>
+<pre class="r"><code>class(l1[1])</code></pre>
+<pre><code>## [1] &quot;list&quot;</code></pre>
+<pre class="r"><code>class(l1[[1]])</code></pre>
+<pre><code>## [1] &quot;numeric&quot;</code></pre>
+<p>Si nous nommons les éléments d’une liste, il est possible de les récupérer avec leurs noms:</p>
+<pre class="r"><code>l3 &lt;- list(vecteur0 = v0, vecteur1 = v1)
+l3$vecteur0</code></pre>
+<pre><code>##  [1]  1  2  3  4  5  6  7  8  9 10</code></pre>
+<pre class="r"><code>l3$vecteur1</code></pre>
+<pre><code>##  [1] 1 2 3 4 5 1 3 6 8 1</code></pre>
+<p>Finalement, il est possible de récupérer des éléments imbriqués d’une liste dans une liste:</p>
+<pre class="r"><code>l0 &lt;- list(vecteur1 = v1, animal = &quot;oiseau&quot;)
+l4 &lt;- list(liste0 = l0, vecteur = v0)
+l4</code></pre>
+<pre><code>## $liste0
+## $liste0$vecteur1
+##  [1] 1 2 3 4 5 1 3 6 8 1
+## 
+## $liste0$animal
+## [1] &quot;oiseau&quot;
+## 
+## 
+## $vecteur
+##  [1]  1  2  3  4  5  6  7  8  9 10</code></pre>
+<pre class="r"><code>l4[[1]]</code></pre>
+<pre><code>## $vecteur1
+##  [1] 1 2 3 4 5 1 3 6 8 1
+## 
+## $animal
+## [1] &quot;oiseau&quot;</code></pre>
+<pre class="r"><code>l4[[1]][[2]]</code></pre>
+<pre><code>## [1] &quot;oiseau&quot;</code></pre>
+<pre class="r"><code>l4$liste0</code></pre>
+<pre><code>## $vecteur1
+##  [1] 1 2 3 4 5 1 3 6 8 1
+## 
+## $animal
+## [1] &quot;oiseau&quot;</code></pre>
+<pre class="r"><code>l4$liste0$animal</code></pre>
+<pre><code>## [1] &quot;oiseau&quot;</code></pre>
+<pre class="r"><code>l4$liste0[[2]]</code></pre>
+<pre><code>## [1] &quot;oiseau&quot;</code></pre>
+<pre class="r"><code>l4[[1]]$animal</code></pre>
+<pre><code>## [1] &quot;oiseau&quot;</code></pre>
+<p>Il faut donc retenir que les listes sont différentes des vecteurs et que par conséquent, ils auront des utilités différentes.</p>
+<p>Ce tuto est terminé!</p>
+</div>

@@ -1,0 +1,7 @@
+"0",""
+"0","# Maintenant"
+"0","txhousing %>% "
+"0","  filter(month == 1) %>% "
+"0","  select(city, year, sales) %>% "
+"0","  pivot_wider(names_from = year,"
+"0","              values_from = sales)"

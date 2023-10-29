@@ -1,0 +1,33 @@
+---
+title: "Un Dashboard pour moi"
+format: dashboard
+editor: visual
+---
+
+```{r}
+pacman::p_load(tidyverse)
+```
+
+## {.sidebar}
+
+```{r}
+iris %>% 
+  ggplot(aes(Species)) +
+  geom_bar()
+```
+
+## Partie 1
+
+```{r}
+iris %>% 
+  ggplot(aes(Species)) +
+  geom_bar()
+```
+
+## Partie 2
+
+```{r}
+iris %>% 
+  ggplot(aes(Species)) +
+  geom_bar()
+```

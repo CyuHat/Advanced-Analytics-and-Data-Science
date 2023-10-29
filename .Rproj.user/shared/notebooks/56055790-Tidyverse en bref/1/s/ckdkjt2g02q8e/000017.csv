@@ -1,0 +1,4 @@
+"0","# Exemple 1"
+"0","starwars %>% "
+"0","  mutate(prenom = str_remove_all(name, ""\\s\\w+""),"
+"0","         .after = name)"

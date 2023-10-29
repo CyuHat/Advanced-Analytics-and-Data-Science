@@ -1,0 +1,3 @@
+"0","# Exemple 1"
+"0","starwars %>% "
+"0","  select(ends_with(""color""), name) # favoris matches"

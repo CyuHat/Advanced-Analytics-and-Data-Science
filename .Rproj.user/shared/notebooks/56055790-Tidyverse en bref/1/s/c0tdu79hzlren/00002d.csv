@@ -1,0 +1,6 @@
+"0",""
+"0","# Exemple 4"
+"0","starwars %>% "
+"0","  group_by(species) %>% "
+"0","  mutate(taille = mean(height, na.rm = TRUE)) %>% "
+"0","  select(species, taille)"

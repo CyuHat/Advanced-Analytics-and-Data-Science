@@ -1,0 +1,5 @@
+"0",""
+"0","# Exemple 3"
+"0","starwars %>% "
+"0","  transmute(taille = ifelse(height > 180, ""Grand"", ""Petit""),"
+"0","            name) # transmute / .before / .after"
