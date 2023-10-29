@@ -23,20 +23,28 @@ Nous allons nous concentrer sur [l'interface utilisateur](https://docs.posit.co/
 
 ------------------------------------------------------------------------
 
+## Exercice
+
+1.  Créer un dossier pour R
+2.  Créer un dossier pour le cours
+3.  Télécharger le contenu du cours dans le dossier dédié
+
+------------------------------------------------------------------------
+
 ### Reproductibilité, lisibilité et débogage
 
 ![](images/clean_code.jpg)
 
 ## Type de données et opérations arithmétique
 
-Chiffres
+## Chiffres
 
 ```{r}
 2.3
 10000000000000 
 ```
 
-Commentaires
+## Commentaires
 
 ```{r}
 # Ceci est un commentaire
@@ -44,14 +52,34 @@ Commentaires
 
 ------------------------------------------------------------------------
 
-Texte / chaîne de caractère
+## Texte / chaîne de caractère
 
 ```{r}
 "chocolat"
 "Puree de pomme de terre" 
 ```
 
-Types
+------------------------------------------------------------------------
+
+## Concaténation
+
+```{r}
+paste("chien", "chat")
+cat("un", "deux")
+```
+
+------------------------------------------------------------------------
+
+## Info fonction
+
+```{r}
+#| eval: false
+?cat
+```
+
+------------------------------------------------------------------------
+
+## Types
 
 ```{r}
 typeof(1L)
@@ -61,7 +89,7 @@ typeof("text")
 
 ------------------------------------------------------------------------
 
-**Les variables**
+## Les variables
 
 ```{r}
 a <- 12 
@@ -125,13 +153,9 @@ a
 
 ------------------------------------------------------------------------
 
-Vecteurs
+## Les vecteurs
 
-------------------------------------------------------------------------
-
-**Les vecteurs**
-
-Serie de valeurs de même type
+Série de valeurs de même type
 
 ```{r}
 v0 <- c(1, 2, 3, 4, 5)
@@ -361,7 +385,7 @@ v0[3:9] * v1[1:7]
 
 ------------------------------------------------------------------------
 
-**Opérateurs**
+## Opérateurs
 
 Avant d'entamer les opérateurs, nous allons commencer par un petit exemple. Nous allons voir ce qu'il se passe lorsque nous utilisons les signes \< et \>:
 

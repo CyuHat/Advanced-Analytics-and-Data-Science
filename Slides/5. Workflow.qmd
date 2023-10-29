@@ -1,0 +1,50 @@
+---
+title: "5. Workflow"
+format: html
+editor: visual
+---
+
+## Qu'est-ce que le workflow en science des données?
+
+**En bref:** Comment passer des données à un rapport statistique
+
+-   On ne parlera pas de modélisation
+
+![](images/data_science.png)
+
+## Workflow en bref
+
+1.  [Créé un project]{style="color: blue;"}
+2.  [Ajouter les bons dossiers et les bonnes données]{style="color: blue;"}
+    -   No space and special character (files/folder)
+    -   Put script in order
+3.  [For each file]{style="color: blue;"}
+    -   **Self-contained**: load packages, data
+    -   **Clean code**: Name, space, comments, sections, order, etc.
+    -   **Save output**: data format and/or other (pictures, files, etc.)
+
+## What is Quarto?
+
+One of the best tool for scientific publishing! Keep your code, result and writting together!
+
+-   [Quarto official website](https://quarto.org/)
+
+-   [Quarto gallery](https://quarto.org/docs/gallery/)
+
+-   [A good documentation](https://quarto.org/docs/guide/)
+
+-   [Awesome Quarto: list of resources on it!](https://github.com/mcanouil/awesome-quarto)
+
+-   [Getting started!](https://docs.posit.co/ide/user/ide/guide/documents/quarto-project.html)
+
+## Why you should use Quarto?
+
+As a (data) scientist/researcher, you should save time when you need to publish. Quarto allows you to put your code, its output and your writting in a single file that can be exported in many format.
+
+-   Language agnostic (R, Python, Julia and JavaScript)
+
+-   Highly portable (Rstudio, VS Code, Jupyter, Neovim, etc.)
+
+-   Versatile formats (articles, presentation, website, books, etc.)
+
+-   Good defaults and highly customizable (template for journals)

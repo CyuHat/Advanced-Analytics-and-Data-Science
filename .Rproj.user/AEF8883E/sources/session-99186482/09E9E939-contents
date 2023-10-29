@@ -1,0 +1,73 @@
+---
+title: "0. Information générale"
+author: "Vestin Hategekimana"
+format: revealjs
+editor: visual
+---
+
+## Présentation
+
+### À propos de moi
+
+Nom: **Vestin Hategekimana**
+
+Activité: **Doctorant en démographie à l'Université de Genève**
+
+Passion: **Sciences des données et un peu de code**
+
+------------------------------------------------------------------------
+
+## À propos de vous
+
+Nom: ?
+
+Activité: ?
+
+Passion: ?
+
+But: ?
+
+-   Pourquoi suivez-vous cette formation?
+
+-   Qu'est-ce que vous savez de R?
+
+-   Est-ce que vous pensez que ça vous sera utile?
+
+------------------------------------------------------------------------
+
+## But du cours
+
+1.  Introduire les bases de R
+2.  Introduire les bases du Tidyverse pour
+    -   Importer et Nettoyer les données
+    -   Réaliser des analyses
+    -   Faire de la visualisation
+3.  Apprendre les bases du workflow en data science
+4.  Créer des rapports
+5.  Utiliser la documentation disponible
+
+------------------------------------------------------------------------
+
+## Qu'est-ce que R?
+
+**R** est un langage de programmation et un environnement logiciel dédié à l'analyse statistique, la visualisation de données et le calcul scientifique.
+
+-   Open source: disponible gratuitement et peut être modifié et distribué.
+
+-   R possède une grande variété de packages
+
+-   Convivial pour les statistiques avancées, les modèles de machine learning, les simulations, etc.
+
+-   Intégration facile avec d'autres logiciels et langages de programmation.
+
+------------------------------------------------------------------------
+
+## Pourquoi apprendre R?
+
+-   **Analyses Statistiques Avancées**: R est particulièrement fort en statistiques et permet de réaliser une grande variété d'analyses statistiques.
+
+-   **Visualisation de Données**: Les packages ggplot2 et Shiny, entre autres, permettent de créer des visualisations de données complexes et interactives.
+
+-   **Manipulation de Données**: Des packages comme dplyr et tidyr facilitent le nettoyage, la manipulation et l'analyse de grands ensembles de données.
+
+-   **Communauté et Ressources**: Une immense communauté d'utilisateurs et une abondance de tutoriels, forums, et documents d\'aide.

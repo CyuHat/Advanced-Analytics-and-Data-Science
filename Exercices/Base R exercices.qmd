@@ -7,7 +7,7 @@ execute:
   echo: true
 ---
 
-## Série 1
+# Série 1
 
 **(1) Création de variables :** Créez deux variables `x` et `y` et attribuez-leur les valeurs 5 et 3 respectivement. Ensuite, calculez la somme, la différence, le produit et le quotient (division) de ces deux variables.
 
@@ -40,6 +40,46 @@ execute:
 ```
 
 # Série 2
+
+**Créer une liste :** Créez une liste appelée `ma_liste` qui contient les éléments suivants :
+
+-   Un vecteur de nombres de 1 à 5.
+
+-   Un vecteur de caractères avec les noms de jours de la semaine.
+
+-   Une matrice 2x2 avec des nombres de votre choix.
+
+-   Une liste imbriquée contenant trois vecteurs de nombres.
+
+```{r}
+
+```
+
+**Accéder aux éléments d'une liste :** Accédez au troisième élément de la liste `ma_liste`, qui est une matrice. Ensuite, accédez au deuxième élément du deuxième vecteur de nombres dans la liste imbriquée.
+
+```{r}
+
+```
+
+**Ajouter un nouvel élément :** Ajoutez un vecteur de nombres de 6 à 10 à la fin de `ma_liste`.
+
+```{r}
+
+```
+
+**Supprimer un élément :** Supprimez le deuxième élément de la liste `ma_liste`, qui est un vecteur de caractères contenant les noms des jours de la semaine.
+
+```{r}
+
+```
+
+**Modifier un élément :** Modifiez le premier élément du premier vecteur de nombres dans la liste imbriquée. Remplacez-le par un nouveau nombre de votre choix.
+
+```{r}
+
+```
+
+# Série 3
 
 **(1) Fonction de calcul :** Créez une fonction appelée `calcul_somme` qui prend deux arguments (`a` et `b`) et renvoie leur somme. Appelez cette fonction avec différentes paires de nombres.
 
