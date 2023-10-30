@@ -1,0 +1,253 @@
+---
+title: "Tidyverse solutions"
+format: html
+editor: visual
+---
+
+```{r}
+library(tidyverse)
+```
+
+# dplyr
+
+## Série 1
+
+Exercice 1a : Sélectionnez les colonnes "name" et "height" de starwars. (Astuce: [tidyselect](https://dplyr.tidyverse.org/reference/dplyr_tidy_select.html))
+
+```{r}
+starwars %>%
+  select(name, height)
+```
+
+Exercice 1b: Sélectionnez les colonnes qui contiennent le terme "color". (Astuce: [tidyselect](https://dplyr.tidyverse.org/reference/dplyr_tidy_select.html))
+
+```{r}
+starwars %>% 
+  select(contains("color"))
+```
+
+Exercice 1c: Sélectionnez les colonnes numériques (astuce: where() et is.numeric()). (Astuce: [tidyselect](https://dplyr.tidyverse.org/reference/dplyr_tidy_select.html))
+
+```{r}
+starwars %>% 
+  select(where(is.numeric))
+```
+
+Exercice 1d: Sélectionnez la colonne "mass" et renommez-là "weight". (Astuce: [tidyselect](https://dplyr.tidyverse.org/reference/dplyr_tidy_select.html))
+
+```{r}
+starwars %>% 
+  select(weigth = mass)
+```
+
+Exercice 2 : Filtrer les personnages dont l'espèce (species) est "Human". (Astuce: [tidyselect](https://dplyr.tidyverse.org/reference/dplyr_tidy_select.html))
+
+```{r}
+starwars %>% 
+  filter(species == "Human")
+```
+
+Exercice 3 : Triez les personnages par leur taille (height) de la plus grande à la plus petite. Astuce: desc()
+
+```{r}
+starwars %>% 
+  arrange(desc(height))
+```
+
+Exercice 4 : Créez une nouvelle colonne "bmi" (indice de masse corporelle) en utilisant les colonnes "weight" et "height". Astuce:
+
+$$
+\frac{mass}{(height/100)^2}
+$$
+
+```{r}
+starwars %>%
+  mutate(bmi = mass / ((height / 100)^2))
+```
+
+Exercice 5a : Groupez les personnages par leur planète d'origine (homeworld) et calculez le nombre de personnages dans chaque groupe.
+
+```{r}
+starwars %>% 
+  count(homeworld)
+```
+
+Exercice 5b : En vous basant sur l'exercice précédent, explorer la fonction count(). Plus précisément réalisez les actions suivantes:
+
+-   Arranger les valeurs dans l'ordre décroissant
+
+-   Nommer la colonne de compte ("n") par le nom "count"
+
+-   Renommer
+
+*Astuce: utiliser ?count pour savoir comment fonctionne la fonction ou allez voir la [documentation en ligne](https://dplyr.tidyverse.org/reference/index.html).*
+
+```{r}
+starwars %>% 
+  count(homeworld)
+```
+
+## Série 2
+
+Exercice 6 : Sélectionnez les 5 premiers personnages dont l'âge (birth_year) est supérieur à 30 ans .
+
+```{r}
+starwars %>%
+  filter(birth_year > 30) %>% 
+  head(5)
+```
+
+Exercice 7 : Créez une colonne "homeworld_length" qui contient la longueur (nombre de caractères) du nom de la planète d'origine (homeworld). Astuce: str_count() ou nchar()
+
+```{r}
+starwars %>% 
+  mutate(homeworld_length = str_count(homeworld))
+```
+
+Exercice 8 : Filtrez les personnages dont le nom de leur planète d'origine (homeworld) contient la lettre "o".
+
+```{r}
+starwars %>% 
+  filter(str_detect(homeworld, "o"))
+```
+
+Exercice 9 : Calculez la taille moyenne (height) des personnages pour chaque espèce (species) et triez les résultats par taille moyenne décroissante.
+
+```{r}
+starwars %>% 
+  group_by(species) %>% 
+  summarize(mean_height = mean(height, na.rm = TRUE)) %>% 
+  arrange(desc(mean_height))
+```
+
+Exercice 10 : Groupez les personnages par leur espèce (species) et calculez la taille moyenne (height) ainsi que la masse moyenne (mass) pour chaque espèce.
+
+```{r}
+starwars %>% 
+  group_by(species) %>% 
+  summarize(mean_height = mean(height, na.rm = TRUE), 
+            mean_mass = mean(mass, na.rm = TRUE))
+```
+
+# ggplot2
+
+**Exercice 1: Introduction à ggplot2**
+
+-   Créez un graphique de base avec `ggplot` montrant la répartition des personnages de StarWars par couleur de yeux.
+
+-   Pour des raisons de lisibilité utilisez la fonction fct_lump(n = 5) pour garder les 5 valeurs les plus importantes
+
+```{r}
+starwars %>% 
+  ggplot(aes(x = fct_lump(eye_color, 5))) + 
+  geom_bar()
+```
+
+**Exercice 2: Travailler avec aes**
+
+Modifiez le graphique précédent pour colorer les barres en fonction du sexe des personnages.
+
+```{r}
+starwars %>% 
+  ggplot(aes(x = fct_lump(eye_color, 5), fill = sex)) + 
+  geom_bar()
+```
+
+**Exercice 3: Explorer geom_bar**
+
+Créez un graphique montrant le nombre de personnages par espèce, mais cette fois, utilisez `geom_bar` avec l'argument `position = "dodge"`.
+
+-   Si vous le souhiatez, vous pouvez ajouter dans geom_bar l'argument color = "black" pour ajouter des contours aux bars
+
+```{r}
+starwars %>%
+  ggplot(aes(x = fct_lump(eye_color, 5), fill = sex)) +
+  geom_bar(position = "dodge", color = "black")
+```
+
+**Exercice 4: Personnalisation avec theme et labs**
+
+Ajoutez des labels à votre graphique. Ajoutez:
+
+-   Un titre et un sous-titre
+
+-   Des labels
+
+-   Changer le nom de la légende "sex" par "Sexe" (astuce: argument fill)
+
+```{r}
+starwars %>% 
+  ggplot(aes(x = fct_lump(eye_color, 5), fill = sex)) + 
+  geom_bar(position = "dodge", color = "black") +
+  labs(title = "Répartition des Personnages de Star Wars par Espèce et Sexe",
+       x = "Espèce", 
+       y = "Nombre de Personnages", 
+       fill = "Sexe")
+```
+
+**Exercice 5: Utiliser scale\_**\*
+
+Modifiez les couleurs de votre graphique en utilisant `scale_fill_manual` pour assigner manuellement des couleurs.
+
+-   Pour la documentation: ?scale_fill_manual ou sur [le site](https://ggplot2.tidyverse.org/reference/)
+
+```{r}
+starwars %>% 
+  ggplot(aes(x = fct_lump(eye_color, 5), fill = sex)) + 
+  geom_bar(position = "dodge", color = "black") +
+  scale_fill_manual(values = c("male" = "blue", 
+                               "female" = "pink",
+                               "hermaphroditic" = "purple",
+                               "none" = "grey")) +
+  labs(title = "Répartition des Personnages de Star Wars par Espèce et Sexe",
+       x = "Espèce", 
+       y = "Nombre de Personnages", 
+       fill = "Sexe")
+```
+
+**Exercice 6: Pivoter le graphique pour rendre le texte lisible (Astuce: coord_flip())**
+
+```{r}
+starwars %>% 
+  ggplot(aes(x = fct_lump(eye_color, 5), fill = sex)) + 
+  geom_bar(position = "dodge", color = "black") +
+  scale_fill_manual(values = c("male" = "blue", 
+                               "female" = "pink",
+                               "hermaphroditic" = "purple",
+                               "none" = "grey")) +
+  labs(title = "Répartition des Personnages de Star Wars par Espèce et Sexe",
+       x = "Espèce", 
+       y = "Nombre de Personnages", 
+       fill = "Sexe") +
+  coord_flip()
+```
+
+**Exercice 7: Choisissez le thème qui vous plaît dans la [liste à disposition pour votre graphe](https://ggplot2.tidyverse.org/reference/ggtheme.html)**
+
+```{r}
+starwars %>% 
+  ggplot(aes(x = fct_lump(eye_color, 5), fill = sex)) + 
+  geom_bar(position = "dodge", color = "black") +
+  scale_fill_manual(values = c("male" = "blue", 
+                               "female" = "pink",
+                               "hermaphroditic" = "purple",
+                               "none" = "grey")) +
+  labs(title = "Répartition des Personnages de Star Wars par Espèce et Sexe",
+       x = "Espèce", 
+       y = "Nombre de Personnages", 
+       fill = "Sexe") +
+  coord_flip() +
+  theme_bw()
+```
+
+**Exercice 8: Explorer les options suivantes:**
+
+-   [Labels](https://ggplot2.tidyverse.org/reference/geom_text.html)
+
+-   [Theme](https://ggplot2.tidyverse.org/reference/theme.html)
+
+-   [Limits](https://ggplot2.tidyverse.org/reference/lims.html)
+
+-   [Scales_color](https://ggplot2.tidyverse.org/reference/scale_brewer.html)
+
+-   [Scales_continuous](https://ggplot2.tidyverse.org/reference/scale_continuous.html)

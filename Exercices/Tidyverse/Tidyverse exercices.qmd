@@ -1,0 +1,161 @@
+---
+title: "Tidyverse exercices"
+format: html
+editor: visual
+---
+
+# dplyr
+
+## Série 1
+
+Exercice 1a : Sélectionnez les colonnes "name" et "height" de starwars.
+
+```{r}
+
+```
+
+Exercice 1b: Sélectionnez les colonnes qui contiennent le terme "color". (Astuce: [tidyselect](https://dplyr.tidyverse.org/reference/dplyr_tidy_select.html))
+
+```{r}
+
+```
+
+Exercice 1c: Sélectionnez les colonnes numériques (astuce: where() et is.numeric()). (Astuce: [tidyselect](https://dplyr.tidyverse.org/reference/dplyr_tidy_select.html))
+
+```{r}
+
+```
+
+Exercice 1d: Sélectionnez la colonne "mass" et renommez-là "weight". (Astuce: [tidyselect](https://dplyr.tidyverse.org/reference/dplyr_tidy_select.html))
+
+```{r}
+
+```
+
+Exercice 2 : Filtrer les personnages dont l'espèce (species) est "Human".
+
+```{r}
+
+```
+
+Exercice 3 : Triez les personnages par leur taille (height) de la plus grande à la plus petite. Astuce: desc()
+
+```{r}
+
+```
+
+Exercice 4 : Créez une nouvelle colonne "bmi" (indice de masse corporelle) en utilisant les colonnes "weight" et "height". Astuce:
+
+$$
+\frac{mass}{(height/100)^2}
+$$
+
+```{r}
+
+```
+
+Exercice 5a : Groupez les personnages par leur planète d'origine (homeworld) et calculez le nombre de personnages dans chaque groupe.
+
+```{r}
+
+```
+
+Exercice 5b : En vous basant sur l'exercice précédent, explorer la fonction count(). Plus précisément réalisez les actions suivantes:
+
+-   Arranger les valeurs dans l'ordre décroissant
+
+-   Nommer la colonne de compte ("n") par le nom "count"
+
+-   Renommer
+
+*Astuce: utiliser ?count pour savoir comment fonctionne la fonction ou allez voir la [documentation en ligne](https://dplyr.tidyverse.org/reference/index.html).*
+
+```{r}
+
+```
+
+## Série 2
+
+Exercice 6 : Sélectionnez les 5 premiers personnages dont l'âge (age) est supérieur à 30 ans.
+
+```{r}
+
+```
+
+Exercice 7 : Créez une colonne "homeworld_length" qui contient la longueur (nombre de caractères) du nom de la planète d'origine (homeworld).
+
+```{r}
+
+```
+
+Exercice 8 : Filtrez les personnages dont le nom de leur planète d'origine (homeworld) contient la lettre "o".
+
+```{r}
+
+```
+
+Exercice 9 : Calculez la taille moyenne (height) des personnages pour chaque espèce (species) et triez les résultats par taille moyenne décroissante.
+
+```{r}
+
+```
+
+Exercice 10 : Groupez les personnages par leur espèce (species) et calculez la taille moyenne (height) ainsi que la masse moyenne (mass) pour chaque espèce.
+
+```{r}
+
+```
+
+# ggplot2
+
+**Exercice 1: Introduction à ggplot2**
+
+-   Créez un graphique de base avec `ggplot` montrant la répartition des personnages de StarWars par couleur de yeux.
+
+-   Pour des raisons de lisibilité utilisez la fonction fct_lump(n = 5) pour garder les 5 valeurs les plus importantes
+
+**Exercice 2: Travailler avec aes**
+
+Modifiez le graphique précédent pour colorer les barres en fonction du sexe des personnages.
+
+**Exercice 3: Explorer geom_bar**
+
+Créez un graphique montrant le nombre de personnages par espèce, mais cette fois, utilisez `geom_bar` avec l'argument `position = "dodge"`.
+
+-   Si vous le souhiatez, vous pouvez ajouter dans geom_bar l'argument color = "black" pour ajouter des contours aux bars
+
+**Exercice 4: Personnalisation avec theme et labs**
+
+Ajoutez des labels à votre graphique. Ajoutez:
+
+-   Un titre et un sous-titre
+
+-   Des labels
+
+-   Changer le nom de la légende "sex" par "Sexe" (astuce: argument fill)
+
+**Exercice 5: Utiliser scale\_**\*
+
+Modifiez les couleurs de votre graphique en utilisant `scale_fill_manual` pour assigner manuellement des couleurs.
+
+-   Pour la documentation: ?scale_fill_manual ou sur [le site](https://ggplot2.tidyverse.org/reference/)
+
+**Exercice 6: Pivoter le graphique pour rendre le texte lisible (Astuce: coord_flip())**
+
+**Exercice 7: Choisissez le thème qui vous plaît dans la [liste à disposition pour votre graphe](https://ggplot2.tidyverse.org/reference/ggtheme.html)**
+
+**Exercice 8: Explorer les options suivantes:**
+
+-   [Labels](https://ggplot2.tidyverse.org/reference/geom_text.html)
+
+-   [Theme](https://ggplot2.tidyverse.org/reference/theme.html)
+
+-   [Limits](https://ggplot2.tidyverse.org/reference/lims.html)
+
+-   [Scales_color](https://ggplot2.tidyverse.org/reference/scale_brewer.html)
+
+-   [Scales_continuous](https://ggplot2.tidyverse.org/reference/scale_continuous.html)
+
+```{r}
+
+```

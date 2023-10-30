@@ -1,0 +1,54 @@
+---
+title: "5. Workflow"
+format:
+  revealjs:
+    theme: [default, custom.scss]
+editor: visual
+---
+
+## Qu'est-ce que le workflow en science des données?
+
+**En bref:** Comment passer des données à un rapport statistique
+
+-   On ne parlera pas de modélisation
+
+![](images/data_science.png)
+
+## Workflow en bref
+
+1.  Créer un projet
+2.  Ajouter les bons dossiers et les bonnes données
+3.  Importer les données
+4.  Nettoyer les données
+5.  Créer un rapport
+6.  Exporter le rapport
+
+## Quarto
+
+Parlons quelques instant de Quarto
+
+![](images/quarto%20document.png)
+
+## Qu'est-ce que Quarto?
+
+Notebook: Un des meilleurs outils scientifique pour la publication! Gardez votre code, vos résultats et votre texte ensemble.
+
+-   [Quarto official website](https://quarto.org/)
+
+-   [Quarto gallery](https://quarto.org/docs/gallery/)
+
+-   [A good documentation](https://quarto.org/docs/guide/)
+
+-   [Awesome Quarto: list of resources on it!](https://github.com/mcanouil/awesome-quarto)
+
+-   [Getting started!](https://docs.posit.co/ide/user/ide/guide/documents/quarto-project.html)
+
+## Pourquoi vous devriez utiliser Quarto?
+
+Quarto vous permet de mettre votre code, sa sortie et votre écriture dans un seul fichier qui peut être exporté dans de nombreux formats.
+
+-   Agnostique en termes de langages (R, Python, Julia et JavaScript)
+
+-   Hautement portable (Rstudio, VS Code, Jupyter, Neovim, etc.)
+
+-   Formats polyvalents (articles, présentations, sites web, livres, etc.)
