@@ -1,7 +1,12 @@
 ---
 title: "Tidyverse solutions"
+date: "31.10.2023"
+author: "Vestin Hategekimana"
 format: html
 editor: visual
+execute: 
+  warning: false
+  echo: false
 ---
 
 ```{r}
@@ -10,7 +15,7 @@ library(tidyverse)
 
 # dplyr
 
-## Série 1
+## [Série 1]{style="color: red;"}
 
 Exercice 1a : Sélectionnez les colonnes "name" et "height" de starwars. (Astuce: [tidyselect](https://dplyr.tidyverse.org/reference/dplyr_tidy_select.html))
 

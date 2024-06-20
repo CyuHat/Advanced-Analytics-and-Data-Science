@@ -1,5 +1,6 @@
 ---
 title: "Base R Solutions"
+author: "Marcelin Bilounga"
 format: html
 editor: visual
 ---
@@ -8,103 +9,94 @@ editor: visual
 
 ## Exercice 1
 
+**(1) Création de variables :** Créez deux variables `x` et `y` et attribuez-leur les valeurs 5 et 3 respectivement. Ensuite, calculez la somme, la différence, le produit et le quotient (division) de ces deux variables.
+
 ```{r}
-x <- 5 
-y <- 3 
-somme <- x + y 
-difference <- x - y 
-produit <- x * y 
-quotient <- x / y
+x = 5 
+y = 3 
+x + y 
+x - y 
+x * y 
+x / y
 ```
 
 ## Exercice 2
 
+**(2) Calculs avec des vecteurs :** Créez un vecteur `numbers` contenant les nombres de 1 à 10. Ensuite, calculez la somme de tous les nombres pairs dans ce vecteur.
+
 ```{r}
-numbers <- 1:10 
-somme_pairs <- sum(numbers[numbers %% 2 == 0])
+numbers = 1:10 
+somme_pairs = sum(numbers[numbers %% 2 == 0])
+somme_pairs
 ```
 
 ## Exercice 3
 
+**(3) Chaînes de caractères :** Créez une variable `nom` contenant votre prénom et une variable `nom_de_famille` contenant votre nom de famille. Concaténez ces deux variables pour former votre nom complet.
+
 ```{r}
-prenom <- "Votre" 
-nom_de_famille <- "Nom" 
-nom_complet <- paste(prenom, nom_de_famille)
+prenom = "Marcelin" 
+nom_de_famille = "Bilounga" 
+nom_complet = paste(prenom, nom_de_famille)
+nom_complet
 ```
 
 ## Exercice 4
 
+**(4) Fonctions mathématiques :** Utilisez la fonction `sqrt()` pour calculer la racine carrée d'un nombre de votre choix. Ensuite, utilisez la fonction `round()` pour arrondir le résultat à deux décimales.
+
 ```{r}
-nombre <- 25 
-racine_carree <- sqrt(nombre) 
-racine_carree_arrondie <- round(racine_carree, 2)
+racine_carree = sqrt(16) 
+racine_carree_arrondie = round(racine_carree, 2)
+racine_carree_arrondie
 ```
 
 ## Exercice 5
 
+**(5) Conversion de types :** Créez une variable `age` contenant 30 en tant que nombre entier. Ensuite, convertissez cette variable en caractère (chaîne de caractères) et ajoutez "ans" à la fin pour obtenir une phrase complète.
+
 ```{r}
-age <- 30 
-age_texte <- as.character(age) 
-phrase_complete <- paste(age_texte, "ans")
+age = 30L
+age2 = as.character(age) 
+phrase_complete = paste(age2, "ans")
 ```
 
 # Série 2
 
 ## Exercice 1
 
+**(1) Fonction de calcul :** Créez une fonction appelée `calcul_somme` qui prend deux arguments (`a` et `b`) et renvoie leur somme. Appelez cette fonction avec différentes paires de nombres.
+
 ```{r}
-calcul_somme <- function(a, b) { 
+calcul_somme = function(a, b) { 
   return(a + b) 
 }
 
-resultat <- calcul_somme(3, 5)
+resultat1 = calcul_somme(1, 1)
+resultat2 = calcul_somme(10, 1)
 
-cat("La somme est :", resultat, "\n")
+cat("Les sommes sont ", resultat1, " et ", resultat2)
 ```
 
 ## Exercice 2
 
+**(2) Fonction avec une condition :** Écrivez une fonction appelée `est_pair` qui prend un nombre comme argument et renvoie `TRUE` si le nombre est pair et `FALSE` sinon. Testez la fonction avec plusieurs nombres.
+
 ```{r}
-est_pair <- function(x) { 
+est_pair = function(x) { 
   return(x %% 2 == 0) 
   } 
 
-est_pair(4) # Renvoie TRUE est_pair(7) # Renvoie FALSE
+est_pair(1)
+est_pair(2)
 ```
 
 ## Exercice 3
+
+**(3) Boucle for :** Utilisez une boucle `for` pour afficher les nombres de 1 à 10 sur la console.
 
 ```{r}
 for (i in 1:10) { 
   cat(i, " ") 
   }
-cat("\n")
-```
-
-## Exercice 4
-
-```{r}
-table_de_multiplication <- function(n) { 
-  for (i in 1:10) { 
-    cat(n, "x", i, "=", n * i, "\n") 
-    }
-  } 
-
-table_de_multiplication(5)
-```
-
-## Exercice 5
-
-```{r}
-factorielle <- function(n) { 
-  if (n <= 1) { 
-    return(1) 
-    } else { 
-      return(n * factorielle(n - 1)) 
-      }
-} 
-
-resultat <- factorielle(5) # 5! = 120 
-
-cat("5! =", resultat, "\n")
 ```
